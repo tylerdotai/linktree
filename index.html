@@ -138,6 +138,74 @@
             50% { opacity: 0.52; }
         }
 
+        /* PHASE 10: Accessibility - Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* PHASE 10: Mobile optimization */
+        @media (max-width: 380px) {
+            .device {
+                width: 95%;
+                max-width: 300px;
+                padding: 14px;
+            }
+            
+            .screen {
+                height: 170px;
+            }
+            
+            .screen-content {
+                padding: 8px;
+                font-size: 10px;
+            }
+            
+            .menu-title {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+            
+            .dpad {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .dpad-up, .dpad-down { width: 24px; height: 28px; }
+            .dpad-left, .dpad-right { width: 28px; height: 24px; }
+            .dpad-center { width: 24px; height: 24px; }
+            
+            .ab-buttons { gap: 10px; }
+            .ab-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+            
+            .meta-btn { width: 36px; }
+            .speaker { right: 16px; bottom: 70px; }
+            .speaker-dot { width: 4px; height: 4px; }
+            .power-led { left: 20px; }
+            
+            .view-toggle {
+                bottom: -35px;
+                padding: 6px 12px;
+                font-size: 9px;
+            }
+            
+            .list-view { padding: 20px 15px; }
+            .list-view .link { padding: 10px 12px; font-size: 13px; }
+        }
+
+        /* Touch improvements */
+        button {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
         .screen-content {
             padding: 12px;
             color: var(--screen-green);
