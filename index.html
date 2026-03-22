@@ -70,7 +70,7 @@
         .screen-housing {
             background: #4a4a4a;
             border-radius: 8px 8px 30px 30px;
-            padding: 20px 30px 35px;
+            padding: 15px 20px 30px;
             margin-bottom: 20px;
             box-shadow: 
                 inset 0 2px 4px rgba(0,0,0,0.5),
@@ -80,7 +80,7 @@
         .screen-bezel {
             background: #2a2a2a;
             border-radius: 4px;
-            padding: 8px 12px;
+            padding: 6px 10px;
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
         }
 
@@ -102,8 +102,8 @@
 
         .screen {
             background: var(--screen-bg);
-            width: 180px;
-            height: 160px;
+            width: 200px;
+            height: 180px;
             position: relative;
             overflow: hidden;
             image-rendering: pixelated;
@@ -152,16 +152,16 @@
             align-items: center;
         }
 
-        /* Boot Animation */
+        /* Boot Animation - full screen */
         .boot-sequence {
-            position: absolute;
+            position: fixed;
             inset: 0;
             background: var(--screen-bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
-            animation: bootFade 2s ease-out forwards;
+            z-index: 9999;
+            animation: bootFade 2.5s ease-out forwards;
         }
 
         @keyframes bootFade {
@@ -613,7 +613,7 @@
 
         <!-- Branding -->
         <div class="branding">
-            <span class="brand-text">GAME BOY<span class="brand-dot"></span></span>
+            <span class="brand-text">CLAW BOY<span class="brand-dot"></span></span>
         </div>
         
         <!-- View Toggle -->
