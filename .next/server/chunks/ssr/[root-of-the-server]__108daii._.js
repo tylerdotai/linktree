@@ -1,0 +1,3 @@
+module.exports=[56464,a=>{a.v({className:"jetbrains_mono_2eb74f70-module__NkDe5W__className"})},98146,a=>{"use strict";var b=a.i(891),c=a.i(56464);let d={className:c.default.className,style:{fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback'",fontStyle:"normal"}};null!=c.default.variable&&(d.variable=c.default.variable),a.s(["default",0,function({children:a}){return(0,b.jsx)("html",{lang:"en",className:"dark",children:(0,b.jsx)("body",{className:d.className,children:a})})},"metadata",0,{title:"Tyler Delano | Links",description:"My links and projects"}],98146)},35777,a=>{a.n(a.i(98146))}];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__108daii._.js.map
