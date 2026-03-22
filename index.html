@@ -193,6 +193,76 @@
         .menu-list {
             flex: 1;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* PHASE 6: Menu transitions */
+        .menu-list::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--screen-bg);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.1s;
+            pointer-events: none;
+        }
+
+        .menu-list.transitioning::before {
+            opacity: 1;
+        }
+
+        .menu-item {
+            transition: all 0.15s ease-out;
+        }
+
+        /* PHASE 7: Animations */
+        @keyframes menuSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes menuSlideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        @keyframes buttonPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .menu-animate-in .menu-item {
+            animation: menuSlideIn 0.2s ease-out forwards;
+            opacity: 0;
+        }
+
+        .menu-animate-in .menu-item:nth-child(1) { animation-delay: 0s; }
+        .menu-animate-in .menu-item:nth-child(2) { animation-delay: 0.05s; }
+        .menu-animate-in .menu-item:nth-child(3) { animation-delay: 0.1s; }
+        .menu-animate-in .menu-item:nth-child(4) { animation-delay: 0.15s; }
+        .menu-animate-in .menu-item:nth-child(5) { animation-delay: 0.2s; }
+
+        @keyframes screenBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .screen-blink {
+            animation: screenBlink 0.1s ease-in-out;
         }
 
         .menu-item {
@@ -693,7 +763,7 @@
         const menuList = document.getElementById('menuList');
         const menuFooter = document.getElementById('menuFooter');
 
-        function renderMenu() {
+        function renderMenu(animate = true) {
             const menu = menuData[currentMenu];
             menuTitle.textContent = menu.title;
             
@@ -702,6 +772,12 @@
                 menuFooter.textContent = 'A: SELECT | B: BACK';
             } else {
                 menuFooter.textContent = 'A: OPEN | B: BACK';
+            }
+
+            // Add animation class
+            if (animate) {
+                menuList.classList.add('menu-animate-in');
+                setTimeout(() => menuList.classList.remove('menu-animate-in'), 300);
             }
 
             menuList.innerHTML = menu.items.map((item, i) => `
@@ -724,6 +800,10 @@
             const menu = menuData[currentMenu];
             const item = menu.items[selectedIndex];
 
+            // Visual feedback
+            document.querySelector('.screen-frame').classList.add('screen-blink');
+            setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
+
             if (item.submenu) {
                 // Navigate to submenu
                 menuHistory.push(currentMenu);
@@ -738,6 +818,10 @@
 
         function handleBack() {
             if (menuHistory.length > 0) {
+                // Visual feedback
+                document.querySelector('.screen-frame').classList.add('screen-blink');
+                setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
+                
                 currentMenu = menuHistory.pop();
                 selectedIndex = 0;
                 renderMenu();
