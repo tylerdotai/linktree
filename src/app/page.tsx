@@ -14,7 +14,7 @@ const links = [
   {
     category: "Community",
     items: [
-      { title: "Clawplex", desc: "DFW AI Community", url: "https://www.clawplex.dev", icon: "🦞" },
+      { title: "Clawplex", desc: "DFW AI Community", url: "https://www.clawplex.dev" },
     ],
   },
   {
