@@ -3,933 +3,844 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyler Delano | Links</title>
+    <title>tylerdotai | Flume ClawBoy</title>
+    <meta name="description" content="Interactive retro handheld linktree">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14/dist/gsap.min.js"></script>
+    
     <style>
+        /* === CUSTOM CSS === */
         :root {
-            --device-purple: #1a1625;
-            --device-purple-light: #2d2640;
-            --device-purple-dark: #0f0d14;
-            --device-purple-highlight: #3d3655;
-            
-            --screen-bg: #0d1a0d;
+            --body-gray: #9c9c9c;
+            --body-dark: #5c5c5c;
+            --screen-bg: #0f380f;
             --screen-green: #9bbc0f;
-            --screen-green-dark: #0f380f;
-            --screen-green-light: #8bac0f;
-            --screen-glow: rgba(155, 188, 15, 0.15);
-            
-            --button-a: #e94560;
-            --button-a-dark: #b8344d;
-            --button-b: #e94560;
-            --button-b-dark: #b8344d;
-            
-            --dpad: #15101d;
-            --dpad-light: #1f1a2d;
-            --dpad-dark: #0a0810;
-            
-            --accent: #e94560;
-            --accent-glow: rgba(233, 69, 96, 0.4);
+            --btn-a: #32cd32;
+            --btn-b: #ff3030;
+            --dpad: #2d2d2d;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
+        * { box-sizing: border-box; }
+        
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background: #09090b;
-            background-image: 
-                radial-gradient(ellipse at center, rgba(233, 69, 96, 0.05) 0%, transparent 60%),
-                radial-gradient(ellipse at bottom, rgba(45, 38, 64, 0.3) 0%, transparent 50%);
+            font-family: 'Press Start 2P', monospace;
+            background: linear-gradient(180deg, #09090b 0%, #1a1a2e 100%);
             min-height: 100vh;
+            overflow-x hidden;
+        }
+        
+        /* === BOOT SEQUENCE === */
+        .boot-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            flex-direction: column;
         }
-
-        .device {
-            width: 320px;
-            background: linear-gradient(180deg, var(--device-purple-light) 0%, var(--device-purple) 50%, var(--device-purple-dark) 100%);
-            border-radius: 24px 24px 70px 70px;
-            padding: 20px;
-            box-shadow: 
-                0 0 0 2px var(--device-purple-dark),
-                0 25px 80px rgba(0, 0, 0, 0.6),
-                0 15px 30px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255,255,255,0.08),
-                inset 0 -1px 0 rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .device::before {
-            content: '';
+        
+        .boot-screen.hidden { display: none; }
+        
+        /* CRT Effect */
+        .crt-overlay {
             position: absolute;
-            top: 2px;
-            left: 10%;
-            right: 10%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0,0,0,0.15) 2px,
+                rgba(0,0,0,0.15) 4px
+            );
+            pointer-events: none;
+            animation: crt-scroll 0.1s linear infinite;
         }
-
-        .screen-bezel {
-            background: linear-gradient(145deg, #0d0a14, #08060d);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 24px;
+        
+        @keyframes crt-scroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Static noise */
+        .noise {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        
+        .boot-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(180deg, #ff6b00 0%, #ff3030 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255,107,0,0.5);
+        }
+        
+        .boot-powered {
+            font-size: 0.6rem;
+            color: var(--screen-green);
+            margin-top: 1rem;
+            opacity: 0;
+        }
+        
+        .press-start {
+            position: absolute;
+            bottom: 3rem;
+            font-size: 0.5rem;
+            color: #666;
+            cursor: pointer;
+            animation: blink 1s steps(2) infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* Power LED */
+        .power-led {
+            width: 6px;
+            height: 6px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .power-led.on {
+            background: #ff2020;
+            box-shadow: 0 0 8px #ff2020, 0 0 15px rgba(255,32,32,0.6);
+            animation: led-pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes led-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* === DEVICE === */
+        .device-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            opacity: 0;
+        }
+        
+        .device-container.visible { opacity: 1; }
+        
+        .device {
+            width: 280px;
+            background: linear-gradient(180deg, #b0b0b0 0%, var(--body-gray) 30%, var(--body-dark) 100%);
+            border-radius: 12px 12px 50px 50px;
+            padding: 18px 16px 30px;
             box-shadow: 
-                inset 0 3px 12px rgba(0,0,0,0.8),
-                inset 0 1px 0 rgba(255,255,255,0.05),
-                0 1px 0 rgba(255,255,255,0.05);
+                0 0 0 2px #484848,
+                0 30px 60px rgba(0,0,0,0.6),
+                inset 0 2px 0 rgba(255,255,255,0.3),
+                inset 0 -2px 0 rgba(0,0,0,0.15);
             position: relative;
+            transform: scale(0.8);
+            opacity: 0;
         }
-
-        .screen-frame {
-            background: #050408;
-            border-radius: 8px;
+        
+        .device.revealed {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        /* Screen Housing */
+        .screen-housing {
+            background: #3a3a48;
+            border-radius: 8px 8px 28px 28px;
+            padding: 14px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Battery LED on bezel */
+        .battery-led-section {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+            align-self: flex-start;
+            margin-left: 4px;
+        }
+        
+        .battery-label {
+            font-size: 0.4rem;
+            color: #555;
+        }
+        
+        /* Screen */
+        .screen-bezel {
+            background: #1a1a1a;
+            border-radius: 4px;
             padding: 4px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
         }
-
+        
         .screen {
+            width: 160px;
+            height: 144px;
             background: var(--screen-bg);
-            border-radius: 6px;
-            height: 200px;
+            border-radius: 2px;
             position: relative;
             overflow: hidden;
-            box-shadow: 
-                inset 0 0 30px rgba(0,0,0,0.6),
-                inset 0 0 15px rgba(0,0,0,0.4),
-                0 0 10px var(--screen-glow);
         }
-
+        
+        /* Pixel Grid */
+        .screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 2px 2px;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        /* Scanlines */
         .screen::after {
             content: '';
             position: absolute;
             inset: 0;
             background: repeating-linear-gradient(
                 0deg,
-                transparent,
-                transparent 2px,
-                rgba(0,0,0,0.08) 2px,
-                rgba(0,0,0,0.08) 4px
+                transparent 0px,
+                transparent 1px,
+                rgba(0,0,0,0.08) 1px,
+                rgba(0,0,0,0.08) 2px
             );
             pointer-events: none;
-            animation: scanlines 8s linear infinite;
+            z-index: 6;
         }
-
-        @keyframes scanlines {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(4px); }
-        }
-
-        .screen::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at top, rgba(155,188,15,0.03) 0%, transparent 50%);
-            pointer-events: none;
-            animation: flicker 0.15s infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes flicker {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.52; }
-        }
-
+        
+        /* Screen Content */
         .screen-content {
-            padding: 12px;
+            padding: 10px;
             color: var(--screen-green);
-            font-size: 11px;
-            line-height: 1.5;
-            position: relative;
-            z-index: 1;
+            font-size: 0.45rem;
+            line-height: 1.6;
             height: 100%;
             display: flex;
             flex-direction: column;
         }
-
-        .status-bar {
+        
+        .screen-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--screen-green);
+        }
+        
+        .screen-avatar {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            object-fit: cover;
+        }
+        
+        .screen-status {
+            font-size: 0.35rem;
+            color: #6b8b6b;
+            margin-bottom: 8px;
+        }
+        
+        .screen-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .menu-item {
+            padding: 3px 6px;
+            opacity: 0.5;
+            cursor: pointer;
+            transition: all 0.1s;
+            border-radius: 2px;
+        }
+        
+        .menu-item:hover, .menu-item.selected {
+            opacity: 1;
+            background: var(--screen-green);
+            color: var(--screen-bg);
+        }
+        
+        .menu-item::before { content: '> '; opacity: 0; }
+        .menu-item.selected::before { opacity: 1; }
+        
+        .screen-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            font-size: 8px;
-            color: var(--screen-green-dark);
+            margin-top: auto;
+            padding-top: 4px;
+            border-top: 1px dashed var(--screen-green);
         }
-
-        .battery {
+        
+        .battery-bar {
             display: flex;
             align-items: center;
             gap: 3px;
+            font-size: 0.3rem;
         }
-
+        
         .battery-icon {
-            width: 18px;
-            height: 9px;
-            border: 1px solid var(--screen-green-dark);
-            border-radius: 2px;
+            width: 12px;
+            height: 6px;
+            border: 1px solid var(--screen-green);
             padding: 1px;
+            border-radius: 1px;
         }
-
-        .battery-level {
+        
+        .battery-fill {
             height: 100%;
             width: 80%;
             background: var(--screen-green);
             border-radius: 1px;
         }
-
-        .menu-title {
-            text-align: center;
-            font-weight: 700;
-            letter-spacing: 2px;
-            padding-bottom: 6px;
-            margin-bottom: 6px;
-            border-bottom: 1px solid var(--screen-green-dark);
-            text-shadow: 0 0 8px var(--screen-green);
+        
+        .high-score {
+            font-size: 0.3rem;
         }
-
-        .menu-list {
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .menu-item {
-            padding: 5px 8px;
-            border-radius: 3px;
-            opacity: 0.5;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .menu-item.selected {
-            opacity: 1;
-            background: var(--screen-green-dark);
-            color: var(--screen-green-light);
-            box-shadow: 
-                0 0 10px var(--screen-glow),
-                inset 0 0 8px rgba(155,188,15,0.1);
-            font-weight: 600;
-        }
-
-        .menu-item .arrow {
-            width: 10px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .menu-item.selected .arrow {
-            opacity: 1;
-            text-shadow: 0 0 5px var(--screen-green);
-        }
-
-        .menu-item .label {
-            flex: 1;
-        }
-
-        .menu-footer {
-            font-size: 7px;
-            color: var(--screen-green-dark);
-            text-align: center;
-            margin-top: 6px;
-            letter-spacing: 1px;
-        }
-
-        /* Submenu indicator */
-        .has-submenu::after {
-            content: '>';
-            margin-left: auto;
-            font-size: 8px;
-        }
-
-        .menu-item.selected.has-submenu::after {
-            text-shadow: 0 0 5px var(--screen-green);
-        }
-
-        /* View toggle button */
-        .view-toggle {
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--device-purple-dark);
-            border: none;
-            color: #666;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: inherit;
-            font-size: 10px;
-            cursor: pointer;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            transition: all 0.2s;
-        }
-
-        .view-toggle:hover {
-            background: var(--device-purple-light);
-            color: #888;
-        }
-
+        
+        /* D-PAD */
         .controls {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 0 14px;
+            padding: 0 4px;
         }
-
+        
         .dpad {
             position: relative;
-            width: 95px;
-            height: 95px;
+            width: 70px;
+            height: 70px;
         }
-
+        
         .dpad-btn {
             position: absolute;
-            background: linear-gradient(145deg, var(--dpad-light), var(--dpad));
+            background: var(--dpad);
             border: none;
             cursor: pointer;
-            transition: all 0.1s;
-            box-shadow: 
-                0 4px 0 var(--dpad-dark),
-                0 6px 10px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.05);
+            box-shadow: 0 3px 0 #151515, 0 4px 6px rgba(0,0,0,0.4);
         }
-
+        
         .dpad-btn:active, .dpad-btn.pressed {
             transform: translateY(2px);
-            box-shadow: 
-                0 2px 0 var(--dpad-dark),
-                0 3px 5px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.05);
+            box-shadow: 0 1px 0 #151515;
         }
-
-        .dpad-up, .dpad-down {
-            width: 30px;
-            height: 34px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 6px 6px 10px 10px;
-        }
-
-        .dpad-up { top: 0; border-radius: 8px 8px 12px 12px; }
-        .dpad-down { bottom: 0; border-radius: 12px 12px 8px 8px; }
-
-        .dpad-left, .dpad-right {
-            width: 34px;
-            height: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-radius: 10px;
-        }
-
-        .dpad-left { left: 0; border-radius: 12px 6px 6px 12px; }
-        .dpad-right { right: 0; border-radius: 6px 12px 12px 6px; }
-
+        
+        .dpad-up { width: 22px; height: 24px; left: 50%; transform: translateX(-50%); top: 0; border-radius: 4px 4px 8px 8px; }
+        .dpad-down { width: 22px; height: 24px; left: 50%; transform: translateX(-50%); bottom: 0; border-radius: 8px 8px 4px 4px; }
+        .dpad-left { width: 24px; height: 22px; top: 50%; transform: translateY(-50%); left: 0; border-radius: 8px 4px 4px 8px; }
+        .dpad-right { width: 24px; height: 22px; top: 50%; transform: translateY(-50%); right: 0; border-radius: 4px 8px 8px 4px; }
+        
         .dpad-center {
             position: absolute;
-            width: 30px;
-            height: 30px;
+            width: 22px;
+            height: 22px;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(145deg, var(--dpad), var(--dpad-dark));
+            background: var(--dpad);
             border-radius: 50%;
-            box-shadow: 
-                inset 0 2px 4px rgba(0,0,0,0.5),
-                0 1px 0 rgba(255,255,255,0.03);
         }
-
-        .ab-buttons {
+        
+        /* A/B Buttons */
+        .ab-btns {
             display: flex;
-            gap: 14px;
-            transform: rotate(-12deg);
-            margin-right: 14px;
+            gap: 8px;
+            transform: rotate(-15deg);
+            margin-right: 4px;
         }
-
+        
         .ab-btn {
-            width: 44px;
-            height: 44px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
             font-family: inherit;
-            font-weight: 700;
-            font-size: 15px;
+            font-size: 0.5rem;
             color: rgba(255,255,255,0.9);
-            box-shadow: 
-                0 6px 0 var(--button-a-dark),
-                0 8px 15px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.2);
-            transition: all 0.1s;
-            position: relative;
+            box-shadow: 0 3px 0 #1a1a1a, 0 4px 6px rgba(0,0,0,0.4);
         }
-
-        .ab-btn:active {
-            transform: translateY(4px);
-            box-shadow: 
-                0 2px 0 var(--button-a-dark),
-                0 3px 5px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.2);
+        
+        .ab-btn:active, .ab-btn.pressed {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #1a1a1a;
         }
-
-        .btn-a { 
-            background: linear-gradient(145deg, #f05070, var(--button-a));
+        
+        .btn-a { background: var(--btn-a); margin-top: 6px; }
+        .btn-b { background: var(--btn-b); }
+        
+        /* Start/Select */
+        .meta-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+            transform: rotate(-20deg);
+        }
+        
+        .meta-btn {
+            width: 28px;
+            height: 7px;
+            background: #3a3a3a;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #1a1a1a;
+        }
+        
+        .meta-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 #1a1a1a; }
+        
+        .meta-label {
+            font-size: 0.35rem;
+            color: var(--body-dark);
+            text-align: center;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+        
+        /* Branding */
+        .branding {
+            text-align: center;
             margin-top: 10px;
         }
         
-        .btn-b { 
-            background: linear-gradient(145deg, #f05070, var(--button-b));
-        }
-
-        .ab-btn::after {
-            content: attr(data-label);
-            position: absolute;
-            bottom: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 9px;
-            color: rgba(255,255,255,0.4);
+        .brand-text {
+            font-size: 0.55rem;
+            color: var(--body-dark);
             letter-spacing: 1px;
         }
-
-        .meta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-top: 24px;
-        }
-
-        .meta-btn-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .meta-btn {
-            width: 44px;
-            height: 10px;
-            background: linear-gradient(180deg, #1a1525, #15101d);
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 
-                0 2px 0 var(--dpad-dark),
-                0 3px 6px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.03);
-        }
-
-        .meta-btn:active {
-            transform: translateY(1px);
-            box-shadow: 
-                0 1px 0 var(--dpad-dark),
-                0 2px 3px rgba(0,0,0,0.3);
-        }
-
-        .meta-btn-label {
-            text-align: center;
-            font-size: 8px;
-            color: #555;
-            margin-top: 6px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .speaker {
-            position: absolute;
-            right: 24px;
-            bottom: 90px;
-            display: grid;
-            grid-template-columns: repeat(6, 5px);
-            gap: 5px;
-            transform: rotate(-30deg);
-        }
-
-        .speaker-dot {
-            width: 5px;
-            height: 5px;
-            background: radial-gradient(circle at 30% 30%, #15101d, #08060d);
-            border-radius: 50%;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
-        }
-
-        .power-led {
-            position: absolute;
-            left: 30px;
-            top: 50%;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .led {
-            width: 6px;
-            height: 6px;
-            background: #2d5a2d;
-            border-radius: 50%;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .led.on {
-            background: #4a8a4a;
-            box-shadow: 
-                0 0 8px #4a8a4a,
-                0 0 15px rgba(74, 138, 74, 0.5);
-            animation: led-pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes led-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .led-label {
-            font-size: 7px;
-            color: #444;
-            letter-spacing: 1px;
-        }
-
-        /* List view */
-        .list-view {
-            display: none;
-            width: 100%;
-            max-width: 480px;
-            padding: 40px 20px;
-        }
-
-        .list-view.active {
-            display: block;
-        }
-
-        .device-view.hidden {
-            display: none;
-        }
-
-        .list-view .section {
-            margin-bottom: 20px;
-        }
-
-        .list-view .section-title {
-            color: #666;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
-        }
-
-        .list-view .link {
-            display: block;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: #fff;
-            text-decoration: none;
-            margin-bottom: 8px;
-            transition: all 0.2s;
-        }
-
-        .list-view .link:hover {
-            background: rgba(233,69,96,0.2);
-            border-color: #e94560;
-        }
-
-        .device-view {
-            display: block;
-        }
-
-        @media (max-width: 400px) {
-            .device {
-                width: 100%;
-                max-width: 300px;
-                padding: 16px;
+        
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
             }
-            .dpad { width: 80px; height: 80px; }
-            .ab-btn { width: 38px; height: 38px; font-size: 13px; }
+            .boot-screen { display: none; }
+            .device-container { opacity: 1; }
+            .device { transform: scale(1); opacity: 1; }
         }
+        
+        /* Mobile */
+        @media (max-width: 360px) {
+            .device { width: 85vw; max-width: 260px; transform: scale(0.9); }
+            .device.revealed { transform: scale(0.9); }
+            .screen { width: 130px; height: 116px; }
+            .screen-content { padding: 6px; font-size: 0.4rem; }
+            .dpad { width: 55px; height: 55px; }
+            .ab-btn { width: 26px; height: 26px; font-size: 0.4rem; }
+        }
+        
+        button { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
-    <!-- Device View -->
-    <div class="device device-view" id="deviceView">
-        <div class="power-led">
-            <div class="led on"></div>
-            <span class="led-label">POWER</span>
-        </div>
-
-        <div class="screen-bezel">
-            <div class="screen-frame">
-                <div class="screen">
-                    <div class="screen-content">
-                        <div class="status-bar">
-                            <span>TYLER</span>
-                            <div class="battery">
-                                <div class="battery-icon">
-                                    <div class="battery-level"></div>
+    <!-- BOOT SEQUENCE -->
+    <div class="boot-screen" id="bootScreen">
+        <div class="crt-overlay"></div>
+        <div class="noise"></div>
+        <div class="boot-logo" id="bootLogo">FLUME</div>
+        <div class="boot-powered" id="bootPowered">POWERED BY HOSS</div>
+        <div class="press-start" id="pressStart">PRESS START TO SKIP >></div>
+    </div>
+    
+    <!-- DEVICE -->
+    <div class="device-container" id="deviceContainer">
+        <div class="device" id="device">
+            <!-- Screen Housing -->
+            <div class="screen-housing">
+                <!-- Battery LED -->
+                <div class="battery-led-section">
+                    <div class="power-led on"></div>
+                    <span class="battery-label">BATTERY</span>
+                </div>
+                
+                <!-- Screen -->
+                <div class="screen-bezel">
+                    <div class="screen" id="screen" onclick="handleSelect()">
+                        <div class="screen-content">
+                            <!-- Header -->
+                            <div class="screen-header">
+                                <img src="avatar.jpg" alt="Tyler" class="screen-avatar" id="avatar">
+                                <span>PLAYER: tylerdotai</span>
+                            </div>
+                            
+                            <!-- Status -->
+                            <div class="screen-status">AI tinkerer & link hoarder</div>
+                            
+                            <!-- Menu -->
+                            <div class="screen-menu" id="menuItems">
+                                <div class="menu-item selected" data-index="0">> SOCIAL</div>
+                                <div class="menu-item" data-index="1">> PROJECTS</div>
+                                <div class="menu-item" data-index="2">> CONTACT</div>
+                            </div>
+                            
+                            <!-- Footer -->
+                            <div class="screen-footer">
+                                <div class="battery-bar">
+                                    <div class="battery-icon"><div class="battery-fill"></div></div>
+                                    <span>100%</span>
                                 </div>
+                                <div class="high-score">HIGH: ∞</div>
                             </div>
                         </div>
-                        <div class="menu-title" id="menuTitle">MENU</div>
-                        <div class="menu-list" id="menuList"></div>
-                        <div class="menu-footer" id="menuFooter">A: SELECT | B: BACK</div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="controls">
-            <div class="dpad">
-                <button class="dpad-btn dpad-up" data-dir="up" aria-label="Up"></button>
-                <button class="dpad-btn dpad-down" data-dir="down" aria-label="Down"></button>
-                <button class="dpad-btn dpad-left" data-dir="left" aria-label="Left"></button>
-                <button class="dpad-btn dpad-right" data-dir="right" aria-label="Right"></button>
-                <div class="dpad-center"></div>
+            
+            <!-- Controls -->
+            <div class="controls">
+                <div class="dpad">
+                    <button class="dpad-btn dpad-up" data-dir="up"></button>
+                    <button class="dpad-btn dpad-down" data-dir="down"></button>
+                    <button class="dpad-btn dpad-left" data-dir="left"></button>
+                    <button class="dpad-btn dpad-right" data-dir="right"></button>
+                    <div class="dpad-center"></div>
+                </div>
+                
+                <div class="ab-btns">
+                    <button class="ab-btn btn-b" data-action="b">B</button>
+                    <button class="ab-btn btn-a" data-action="a">A</button>
+                </div>
             </div>
-
-            <div class="ab-buttons">
-                <button class="ab-btn btn-b" data-action="b" data-label="B">B</button>
-                <button class="ab-btn btn-a" data-action="a" data-label="A">A</button>
+            
+            <!-- Start/Select -->
+            <div class="meta-btns">
+                <div>
+                    <button class="meta-btn" data-action="select"></button>
+                    <div class="meta-label">SELECT</div>
+                </div>
+                <div>
+                    <button class="meta-btn" data-action="start"></button>
+                    <div class="meta-label">START</div>
+                </div>
             </div>
-        </div>
-
-        <div class="meta-buttons">
-            <div class="meta-btn-container">
-                <button class="meta-btn" data-action="select"></button>
-                <div class="meta-btn-label">SELECT</div>
+            
+            <!-- Branding -->
+            <div class="branding">
+                <div class="brand-text">CLAW BOY</div>
             </div>
-            <div class="meta-btn-container">
-                <button class="meta-btn" data-action="start" id="startBtn"></button>
-                <div class="meta-btn-label">START</div>
-            </div>
-        </div>
-
-        <div class="speaker">
-            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
-            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
-            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
-            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
-        </div>
-
-        <button class="view-toggle" id="viewToggle">SWITCH TO LIST</button>
-    </div>
-
-    <!-- List View -->
-    <div class="list-view" id="listView">
-        <div class="section">
-            <div class="section-title">Projects</div>
-            <a href="https://flume.sh" class="link" target="_blank">Flume.sh</a>
-            <a href="https://tylerdotai.github.io/personal-site" class="link" target="_blank">Terminal Portfolio</a>
-            <a href="https://github.com/tylerdotai/proof" class="link" target="_blank">Proof</a>
-        </div>
-        <div class="section">
-            <div class="section-title">Community</div>
-            <a href="https://www.clawplex.dev" class="link" target="_blank">Clawplex</a>
-            <a href="https://discord.gg/q8kEquTu3z" class="link" target="_blank">Discord</a>
-        </div>
-        <div class="section">
-            <div class="section-title">Contact</div>
-            <a href="mailto:tyler.delano@icloud.com" class="link" target="_blank">Email</a>
-        </div>
-        <div class="section">
-            <div class="section-title">Social</div>
-            <a href="https://linkedin.com/in/tylerpdelano" class="link" target="_blank">LinkedIn</a>
-            <a href="https://twitter.com/tylerdotai" class="link" target="_blank">Twitter / X</a>
-            <a href="https://github.com/tylerdotai" class="link" target="_blank">GitHub</a>
         </div>
     </div>
 
     <script>
-        // === PHASE 4: MENU DATA & RENDERING ===
-        const menuData = {
-            main: {
-                title: 'MENU',
-                items: [
-                    { label: 'Projects', submenu: 'projects', hasSubmenu: true },
-                    { label: 'Community', submenu: 'community', hasSubmenu: true },
-                    { label: 'Contact', submenu: 'contact', hasSubmenu: true },
-                    { label: 'Social', submenu: 'social', hasSubmenu: true }
-                ]
-            },
-            projects: {
-                title: 'PROJECTS',
-                items: [
+        // === STATE ===
+        const state = {
+            currentMenu: 'main',
+            selectedIndex: 0,
+            history: [],
+            menuData: {
+                main: [
+                    { label: 'SOCIAL', submenu: 'social' },
+                    { label: 'PROJECTS', submenu: 'projects' },
+                    { label: 'CONTACT', submenu: 'contact' }
+                ],
+                social: [
+                    { label: '@tylerdotai (X)', url: 'https://twitter.com/tylerdotai' },
+                    { label: 'GitHub', url: 'https://github.com/tylerdotai' },
+                    { label: 'LinkedIn', url: 'https://linkedin.com/in/tylerpdelano' },
+                    { label: '< BACK', submenu: 'main' }
+                ],
+                projects: [
                     { label: 'Flume.sh', url: 'https://flume.sh' },
                     { label: 'Terminal Portfolio', url: 'https://tylerdotai.github.io/personal-site' },
-                    { label: 'Proof', url: 'https://github.com/tylerdotai/proof' }
-                ]
-            },
-            community: {
-                title: 'COMMUNITY',
-                items: [
+                    { label: 'Proof', url: 'https://github.com/tylerdotai/proof' },
+                    { label: '< BACK', submenu: 'main' }
+                ],
+                contact: [
+                    { label: 'Email', url: 'mailto:tyler.delano@icloud.com' },
                     { label: 'Clawplex', url: 'https://www.clawplex.dev' },
-                    { label: 'Discord', url: 'https://discord.gg/q8kEquTu3z' }
-                ]
-            },
-            contact: {
-                title: 'CONTACT',
-                items: [
-                    { label: 'Email', url: 'mailto:tyler.delano@icloud.com' }
-                ]
-            },
-            social: {
-                title: 'SOCIAL',
-                items: [
-                    { label: 'LinkedIn', url: 'https://linkedin.com/in/tylerpdelano' },
-                    { label: 'Twitter/X', url: 'https://twitter.com/tylerdotai' },
-                    { label: 'GitHub', url: 'https://github.com/tylerdotai' }
+                    { label: 'Discord', url: 'https://discord.gg/q8kEquTu3z' },
+                    { label: '< BACK', submenu: 'main' }
                 ]
             }
         };
-
-        // State
-        let currentMenu = 'main';
-        let selectedIndex = 0;
-        let menuHistory = [];
-
-        // DOM elements
-        const menuTitle = document.getElementById('menuTitle');
-        const menuList = document.getElementById('menuList');
-        const menuFooter = document.getElementById('menuFooter');
-
-        function renderMenu() {
-            const menu = menuData[currentMenu];
-            menuTitle.textContent = menu.title;
+        
+        // === BOOT SEQUENCE ===
+        const bootScreen = document.getElementById('bootScreen');
+        const bootLogo = document.getElementById('bootLogo');
+        const bootPowered = document.getElementById('bootPowered');
+        const pressStart = document.getElementById('pressStart');
+        
+        function runBootSequence() {
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    setTimeout(() => {
+                        bootScreen.classList.add('hidden');
+                        revealDevice();
+                    }, 500);
+                }
+            });
             
-            // Update footer based on menu
-            if (currentMenu === 'main') {
-                menuFooter.textContent = 'A: SELECT | B: BACK';
-            } else {
-                menuFooter.textContent = 'A: OPEN | B: BACK';
-            }
-
-            menuList.innerHTML = menu.items.map((item, i) => `
-                <div class="menu-item ${i === selectedIndex ? 'selected' : ''} ${item.hasSubmenu ? 'has-submenu' : ''}" data-index="${i}">
-                    <span class="arrow">></span>
-                    <span class="label">${item.label}</span>
-                </div>
-            `).join('');
-
-            // Add click handlers
-            document.querySelectorAll('.menu-item').forEach(el => {
-                el.addEventListener('click', () => {
-                    selectedIndex = parseInt(el.dataset.index);
-                    handleSelect();
-                });
+            // Logo fade in
+            tl.fromTo(bootLogo, 
+                { opacity: 0, scale: 0.8, filter: 'blur(10px)' },
+                { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power2.out' }
+            );
+            
+            // Powered text
+            tl.to(bootPowered, { opacity: 1, duration: 0.3 }, '-=0.2');
+            
+            // Blink effect on logo
+            tl.to(bootLogo, { 
+                textShadow: '0 0 30px rgba(255,107,0,0.8), 0 0 60px rgba(255,107,0,0.4)',
+                duration: 0.1,
+                repeat: 3,
+                yoyo: true
+            });
+            
+            // Press start blink
+            tl.to(pressStart, { opacity: 1, duration: 0.3 });
+            
+            // Total: ~2.5 seconds
+        }
+        
+        // Skip boot
+        pressStart.addEventListener('click', () => {
+            gsap.to(bootScreen, { opacity: 0, duration: 0.3, onComplete: () => {
+                bootScreen.classList.add('hidden');
+                revealDevice();
+            }});
+        });
+        
+        // === DEVICE REVEAL ===
+        function revealDevice() {
+            const container = document.getElementById('deviceContainer');
+            const device = document.getElementById('device');
+            
+            container.classList.add('visible');
+            
+            gsap.to(device, {
+                scale: 1,
+                opacity: 1,
+                duration: 1.2,
+                ease: 'power3.out'
             });
         }
-
-        function handleSelect() {
-            const menu = menuData[currentMenu];
-            const item = menu.items[selectedIndex];
-
-            if (item.submenu) {
-                // Navigate to submenu
-                menuHistory.push(currentMenu);
-                currentMenu = item.submenu;
-                selectedIndex = 0;
-                renderMenu();
-            } else if (item.url) {
-                // Open link
-                window.open(item.url, '_blank');
-            }
+        
+        // === MENU RENDERING ===
+        function renderMenu() {
+            const items = state.menuData[state.currentMenu];
+            const menuEl = document.getElementById('menuItems');
+            
+            menuEl.innerHTML = items.map((item, i) => 
+                `<div class="menu-item ${i === state.selectedIndex ? 'selected' : ''}" 
+                      data-index="${i}"
+                      onclick="selectItem(${i})">
+                    ${item.label}
+                 </div>`
+            ).join('');
         }
-
-        function handleBack() {
-            if (menuHistory.length > 0) {
-                currentMenu = menuHistory.pop();
-                selectedIndex = 0;
-                renderMenu();
-            }
+        
+        function selectItem(index) {
+            state.selectedIndex = index;
+            handleSelect();
         }
-
-        function handleNavigate(direction) {
-            const menu = menuData[currentMenu];
-            if (direction === 'up') {
-                selectedIndex = (selectedIndex - 1 + menu.items.length) % menu.items.length;
-            } else if (direction === 'down') {
-                selectedIndex = (selectedIndex + 1) % menu.items.length;
+        
+        // === ACTIONS ===
+        function navigate(dir) {
+            const items = state.menuData[state.currentMenu];
+            if (dir === 'up') {
+                state.selectedIndex = (state.selectedIndex - 1 + items.length) % items.length;
+            } else if (dir === 'down') {
+                state.selectedIndex = (state.selectedIndex + 1) % items.length;
             }
+            playBlip();
             renderMenu();
         }
-
-        // D-pad handlers (click + touch)
+        
+        function handleSelect() {
+            const items = state.menuData[state.currentMenu];
+            const item = items[state.selectedIndex];
+            
+            playSelect();
+            
+            // Screen flash effect
+            const screen = document.getElementById('screen');
+            gsap.to(screen, { 
+                backgroundColor: '#fff', 
+                duration: 0.05, 
+                onComplete: () => {
+                    gsap.to(screen, { 
+                        backgroundColor: 'var(--screen-bg)', 
+                        duration: 0.1 
+                    });
+                }
+            });
+            
+            if (item.submenu) {
+                state.history.push(state.currentMenu);
+                state.currentMenu = item.submenu;
+                state.selectedIndex = 0;
+                renderMenu();
+            } else if (item.url) {
+                playOpen();
+                setTimeout(() => {
+                    window.open(item.url, '_blank');
+                }, 200);
+            }
+        }
+        
+        function handleBack() {
+            if (state.history.length > 0) {
+                playBack();
+                state.currentMenu = state.history.pop();
+                state.selectedIndex = 0;
+                renderMenu();
+            }
+        }
+        
+        // === SOUND EFFECTS ===
+        let audioCtx;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+        
+        function playTone(freq, duration, type = 'square', volume = 0.08) {
+            try {
+                const ctx = initAudio();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = type;
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(volume, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch(e) {}
+        }
+        
+        function playBlip() { playTone(440, 0.05, 'square', 0.06); }
+        function playSelect() { playTone(660, 0.05); setTimeout(() => playTone(880, 0.05), 50); }
+        function playBack() { playTone(330, 0.05); }
+        function playOpen() { playTone(523, 0.08); setTimeout(() => playTone(659, 0.08), 80); setTimeout(() => playTone(784, 0.12), 160); }
+        
+        // === EVENT LISTENERS ===
+        // D-Pad
         document.querySelectorAll('.dpad-btn').forEach(btn => {
-            const handleDpad = (e) => {
+            btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const dir = btn.dataset.dir;
                 if (dir === 'up' || dir === 'down') {
-                    handleNavigate(dir);
-                } else if (dir === 'left' || dir === 'right') {
-                    // Left/Right could navigate between menus
-                    if (dir === 'left') handleBack();
+                    navigate(dir);
+                } else {
+                    handleBack();
                 }
-            };
-            
-            btn.addEventListener('click', handleDpad);
-            btn.addEventListener('touchstart', handleDpad, { passive: false });
-            
+            });
             btn.addEventListener('mousedown', () => btn.classList.add('pressed'));
             btn.addEventListener('mouseup', () => btn.classList.remove('pressed'));
-            btn.addEventListener('mouseleave', () => btn.classList.remove('pressed'));
-            btn.addEventListener('touchstart', () => btn.classList.add('pressed'));
-            btn.addEventListener('touchend', () => btn.classList.remove('pressed'));
         });
-
-        // A/B button handlers (click + touch)
-        document.querySelectorAll('.ab-btn').forEach(btn => {
-            const handleAb = (e) => {
-                e.preventDefault();
-                const action = btn.dataset.action;
-                if (action === 'a') handleSelect();
-                if (action === 'b') handleBack();
-            };
-            
-            btn.addEventListener('click', handleAb);
-            btn.addEventListener('touchstart', handleAb, { passive: false });
-        });
-
-        // Start button - toggle view
-        document.querySelector('[data-action="start"]').addEventListener('click', () => {
-            toggleView();
-        });
-        document.querySelector('[data-action="start"]').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            toggleView();
-        }, { passive: false });
-
-        // Select button - alternate action
-        document.querySelector('[data-action="select"]').addEventListener('click', () => {
-            handleSelect(); // Same as A
-        });
-        document.querySelector('[data-action="select"]').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            handleSelect();
-        }, { passive: false });
-
-        // View toggle function
-        function toggleView() {
-            const deviceView = document.getElementById('deviceView');
-            const listView = document.getElementById('listView');
-            
-            if (deviceView.style.display === 'none') {
-                deviceView.style.display = 'block';
-                listView.style.display = 'none';
-            } else {
-                deviceView.style.display = 'none';
-                listView.style.display = 'block';
-            }
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowUp') handleNavigate('up');
-            else if (e.key === 'ArrowDown') handleNavigate('down');
-            else if (e.key === 'Enter') handleSelect();
-            else if (e.key === 'Escape') handleBack();
-            else if (e.key === 'Backspace') handleBack();
-            else if (e.key === ' ') handleSelect(); // Space = A button
-            else if (e.key === 'Tab') { e.preventDefault(); toggleView(); } // Tab = Start
-        });
-
-        // Initial render
-        renderMenu();
-
-        // === VIEW TOGGLE (for later phases) ===
-        document.getElementById('startBtn').addEventListener('click', () => {
-            alert('View toggle coming in Phase 10!');
-        });
-
-        // === TDD TESTS ===
-        const tests = [];
         
-        function test(name, fn) {
-            try {
-                fn();
-                tests.push({ name, status: 'PASS' });
-            } catch (e) {
-                tests.push({ name, status: 'FAIL', error: e.message });
+        // A/B Buttons
+        document.querySelectorAll('.ab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (btn.dataset.action === 'a') {
+                    handleSelect();
+                } else {
+                    handleBack();
+                }
+            });
+            btn.addEventListener('mousedown', () => btn.classList.add('pressed'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('pressed'));
+        });
+        
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') navigate('up');
+            else if (e.key === 'ArrowDown') navigate('down');
+            else if (e.key === 'Enter' || e.key === ' ') handleSelect();
+            else if (e.key === 'Backspace' || e.key === 'Escape') handleBack();
+        });
+        
+        // === INIT ===
+        // Wait for DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+            // Check reduced motion
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                bootScreen.classList.add('hidden');
+                document.getElementById('deviceContainer').classList.add('visible');
+                document.getElementById('device').classList.add('revealed');
+            } else {
+                runBootSequence();
             }
-        }
-
-        function assert(condition, message) {
-            if (!condition) throw new Error(message);
-        }
-
-        // Test menu data structure
-        test('Menu data has main, projects, community, contact, social', () => {
-            assert(menuData.main !== undefined, 'No main menu');
-            assert(menuData.projects !== undefined, 'No projects menu');
-            assert(menuData.community !== undefined, 'No community menu');
-            assert(menuData.contact !== undefined, 'No contact menu');
-            assert(menuData.social !== undefined, 'No social menu');
         });
-
-        test('Main menu has 4 items', () => {
-            assert(menuData.main.items.length === 4, 'Wrong item count');
-        });
-
-        test('Projects menu has 3 items with URLs', () => {
-            assert(menuData.projects.items.length === 3, 'Wrong projects count');
-            assert(menuData.projects.items[0].url !== undefined, 'No URL');
-        });
-
-        test('Render function creates menu items', () => {
-            renderMenu();
-            const items = document.querySelectorAll('.menu-item');
-            assert(items.length === 4, 'Menu not rendered');
-        });
-
-        test('Navigation wraps correctly', () => {
-            selectedIndex = 3;
-            handleNavigate('down');
-            assert(selectedIndex === 0, 'Should wrap to 0');
-            handleNavigate('up');
-            assert(selectedIndex === 3, 'Should wrap to 3');
-        });
-
-        test('Submenu navigation works', () => {
-            selectedIndex = 0; // Projects
-            handleSelect();
-            assert(currentMenu === 'projects', 'Should navigate to projects');
-            assert(menuHistory.includes('main'), 'Should push to history');
-        });
-
-        test('Back navigation works', () => {
-            handleBack();
-            assert(currentMenu === 'main', 'Should go back to main');
-        });
-
-        test('URL items are clickable', () => {
-            currentMenu = 'projects';
-            selectedIndex = 0;
-            const item = menuData.projects.items[0];
-            assert(item.url !== undefined, 'No URL to test');
-            assert(item.url.startsWith('http'), 'Invalid URL');
-        });
-
-        test('Menu title updates on navigation', () => {
-            currentMenu = 'main';
-            renderMenu();
-            assert(menuTitle.textContent === 'MENU', 'Wrong title');
-            selectedIndex = 0;
-            handleSelect();
-            assert(menuTitle.textContent === 'PROJECTS', 'Wrong title after nav');
-        });
-
-        test('Footer text changes per menu', () => {
-            currentMenu = 'main';
-            renderMenu();
-            assert(menuFooter.textContent.includes('SELECT'), 'Wrong footer');
-            currentMenu = 'projects';
-            renderMenu();
-            assert(menuFooter.textContent.includes('OPEN'), 'Wrong footer');
-        });
-
-        console.log('=== PHASE 4 TDD TESTS ===');
-        tests.forEach(t => console.log(`${t.status}: ${t.name}`));
-        console.log(`\nTOTAL: ${tests.filter(t => t.status === 'PASS').length} passed, ${tests.filter(t => t.status === 'FAIL').length} failed`);
     </script>
+    
+    <!-- 
+    ========================================================================
+    HOW TO EXTEND THIS:
+    ========================================================================
+    
+    1. CHANGE NAME/AVATAR:
+       - Replace avatar.jpg with your photo (keep name avatar.jpg or update src)
+       - Find "PLAYER: tylerdotai" and change to your username
+       - Change "AI tinkerer & link hoarder" to your bio
+    
+    2. ADD MORE LINKS:
+       - Find state.menuData and add more items:
+       
+       social: [
+           { label: 'Instagram', url: 'https://instagram.com/yourhandle' },
+           { label: 'YouTube', url: 'https://youtube.com/@yourchannel' },
+       ]
+    
+    3. ADD NEW SECTIONS:
+       - Add new key in menuData:
+         custom: [
+           { label: 'Your Link', url: 'https://example.com' },
+         ]
+       - Add button to main menu to go to it
+    
+    4. CHANGE COLORS:
+       - Edit :root variables at top of <style>
+       - var(--btn-a): green button color
+       - var(--btn-b): red button color  
+       - --screen-green: LCD screen green
+    
+    5. CUSTOMIZE BOOT:
+       - Change "FLUME" to your brand name
+       - Adjust boot sequence timing (tl.duration)
+    
+    6. DEPLOY:
+       - Just upload index.html + avatar.jpg to any static host
+       - GitHub Pages, Netlify, Vercel all work
+    ========================================================================
+    -->
 </body>
 </html>
