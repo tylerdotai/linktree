@@ -872,6 +872,9 @@
             document.querySelector('.screen-frame').classList.add('screen-blink');
             setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
 
+            // Sound
+            playSelect();
+
             if (item.submenu) {
                 // Navigate to submenu
                 menuHistory.push(currentMenu);
@@ -880,6 +883,7 @@
                 renderMenu();
             } else if (item.url) {
                 // Open link
+                playOpen();
                 window.open(item.url, '_blank');
             }
         }
@@ -889,6 +893,9 @@
                 // Visual feedback
                 document.querySelector('.screen-frame').classList.add('screen-blink');
                 setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
+                
+                // Sound
+                playBack();
                 
                 currentMenu = menuHistory.pop();
                 selectedIndex = 0;
@@ -903,6 +910,7 @@
             } else if (direction === 'down') {
                 selectedIndex = (selectedIndex + 1) % menu.items.length;
             }
+            playBlip();
             renderMenu();
         }
 
@@ -1042,29 +1050,8 @@
             setTimeout(() => playTone(784, 0.15, 'sine', 0.1), 160);
         }
 
-        // Hook sounds into navigation
-        const originalHandleNavigate = handleNavigate;
-        handleNavigate = function(direction) {
-            playBlip();
-            originalHandleNavigate(direction);
-        };
-
-        const originalHandleSelect = handleSelect;
-        handleSelect = function() {
-            playSelect();
-            setTimeout(() => {
-                const menu = menuData[currentMenu];
-                const item = menu.items[selectedIndex];
-                if (item.url) playOpen();
-            }, 100);
-            originalHandleSelect();
-        };
-
-        const originalHandleBack = handleBack;
-        handleBack = function() {
-            playBack();
-            originalHandleBack();
-        };
+        // Sound hooks - integrate directly into functions
+        // (keeping original functions, just adding sound calls)
 
         // Toggle sound
         function toggleSound() {
