@@ -67,24 +67,31 @@
         /* === SCREEN AREA === */
         .screen-section {
             display: flex;
-            gap: 8px;
+            gap: 0;
             margin-bottom: 25px;
             align-items: flex-start;
         }
 
-        /* Power LED - positioned on shell, not in screen area */
+        /* Power/Battery LED - on bezel, to left of screen */
+        .battery-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 25px;
+            margin-right: 4px;
+        }
+
         .power-led {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #1a1a1a;
             border-radius: 50%;
-            margin-top: 8px;
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .power-led.on {
             background: #ff2020;
-            box-shadow: 0 0 10px #ff2020, 0 0 20px rgba(255,32,32,0.5);
+            box-shadow: 0 0 8px #ff2020, 0 0 15px rgba(255,32,32,0.5);
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -94,19 +101,17 @@
         }
 
         .power-label {
-            font-size: 5px;
+            font-size: 4px;
             color: var(--gray-darker);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            margin-top: 6px;
-            letter-spacing: 1px;
+            margin-top: 3px;
+            letter-spacing: 0.5px;
         }
 
         /* Screen housing - the dark gray bezel area */
         .screen-housing {
             background: #3a3a3a;
             border-radius: 6px 6px 25px 25px;
-            padding: 10px;
+            padding: 10px 6px 10px 12px; /* Left padding bigger - screen shifted right */
             box-shadow: 
                 inset 0 2px 6px rgba(0,0,0,0.8),
                 0 1px 0 rgba(255,255,255,0.1);
@@ -276,8 +281,8 @@
             box-shadow: 0 2px 0 #5a0835;
         }
 
-        .btn-a { background: linear-gradient(135deg, #b8126a, #8b0a50); }
-        .btn-b { background: linear-gradient(135deg, #b8126a, #8b0a50); margin-top: 8px; }
+        .btn-a { background: linear-gradient(135deg, #b8126a, #8b0a50); margin-top: 8px; }
+        .btn-b { background: linear-gradient(135deg, #b8126a, #8b0a50); margin-top: 0; }
 
         /* START/SELECT */
         .meta-buttons {
@@ -437,12 +442,12 @@
     <div class="container">
         <!-- Game Boy -->
         <div class="gameboy" id="gameboy">
-            <!-- Screen Section: LED + Screen -->
+            <!-- Screen Section: Battery LED + Screen -->
             <div class="screen-section">
-                <!-- Power LED on shell -->
-                <div>
+                <!-- Battery LED on bezel -->
+                <div class="battery-section">
                     <div class="power-led on"></div>
-                    <div class="power-label">POWER</div>
+                    <div class="power-label">BATTERY</div>
                 </div>
                 
                 <!-- Screen housing -->
