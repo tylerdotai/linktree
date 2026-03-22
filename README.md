@@ -8,9 +8,9 @@ My personal link-in-bio page showcasing my projects and social links.
 
 ## Links
 
-- 🏢 [Clawplex](https://clawplex.com) — DFW AI Community
+- 🦞 [Clawplex](https://www.clawplex.dev) — DFW AI Community
 - ⚡ [Flume.sh](https://flume.sh) — Autonomous SaaS Factory
-- 💼 [LinkedIn](https://linkedin.com/in/tylerdelano)
+- 💼 [LinkedIn](https://linkedin.com/in/tylerpdelano)
 - 🐦 [Twitter](https://twitter.com/tylerdotai)
 - 💻 [GitHub](https://github.com/tylerdotai)
 
