@@ -34,32 +34,14 @@
             padding: 60px 20px;
         }
         
-        /* Entrance animations */
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes glow {
@@ -67,16 +49,27 @@
             50% { box-shadow: 0 0 40px var(--accent-glow), 0 0 60px var(--accent-glow); }
         }
         
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        
         .profile {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             animation: fadeInDown 0.6s ease-out;
         }
         
         .avatar-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .avatar {
@@ -100,29 +93,23 @@
             animation: spin 4s linear infinite;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
         .name {
             color: var(--text);
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            margin-bottom: 6px;
         }
         
         .tagline {
             color: var(--text-muted);
             font-size: 15px;
-            font-weight: 400;
         }
         
         .stats {
             display: flex;
             justify-content: center;
             gap: 24px;
-            margin-top: 16px;
+            margin-top: 14px;
         }
         
         .stat {
@@ -138,56 +125,71 @@
             font-weight: 600;
         }
         
-        .links {
+        .section {
             width: 100%;
             max-width: 420px;
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            padding-left: 4px;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+        
+        .section:nth-child(2) .section-title { animation-delay: 0.2s; }
+        .section:nth-child(3) .section-title { animation-delay: 0.4s; }
+        
+        .links {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
         
         .link {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 18px 24px;
+            border-radius: 14px;
+            padding: 16px 20px;
             text-decoration: none;
             color: var(--text);
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeInUp 0.6s ease-out backwards;
         }
         
-        .link:nth-child(1) { animation-delay: 0.1s; }
-        .link:nth-child(2) { animation-delay: 0.2s; }
-        .link:nth-child(3) { animation-delay: 0.3s; }
+        .link:nth-child(1) { animation-delay: 0.25s; }
+        .link:nth-child(2) { animation-delay: 0.3s; }
+        .link:nth-child(3) { animation-delay: 0.35s; }
         .link:nth-child(4) { animation-delay: 0.4s; }
-        .link:nth-child(5) { animation-delay: 0.5s; }
-        .link:nth-child(6) { animation-delay: 0.6s; }
+        .link:nth-child(5) { animation-delay: 0.45s; }
+        .link:nth-child(6) { animation-delay: 0.5s; }
+        .link:nth-child(7) { animation-delay: 0.55s; }
         
         .link:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--accent);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .link:active {
-            transform: translateY(-2px) scale(1.01);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
         
         .link-icon {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             transition: all 0.3s ease;
         }
         
@@ -202,18 +204,18 @@
         
         .link-title {
             font-weight: 600;
-            font-size: 17px;
-            margin-bottom: 2px;
+            font-size: 16px;
         }
         
         .link-desc {
             font-size: 13px;
             color: var(--text-muted);
+            margin-top: 2px;
         }
         
         .link-arrow {
             opacity: 0;
-            transform: translateX(-10px);
+            transform: translateX(-8px);
             transition: all 0.3s ease;
             color: var(--text-muted);
         }
@@ -224,10 +226,10 @@
         }
         
         .footer {
-            margin-top: 50px;
+            margin-top: 40px;
             color: #444;
             font-size: 13px;
-            animation: fadeInUp 0.6s ease-out 0.7s backwards;
+            animation: fadeInUp 0.6s ease-out 0.6s backwards;
         }
         
         .footer a {
@@ -235,7 +237,6 @@
             text-decoration: none;
         }
         
-        /* Floating particles background */
         .particles {
             position: fixed;
             top: 0;
@@ -256,35 +257,16 @@
             opacity: 0.3;
             animation: float 15s infinite;
         }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.3;
-            }
-            90% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="particles">
         <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
-        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 25%; animation-delay: 3s;"></div>
         <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
-        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
-        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 55%; animation-delay: 9s;"></div>
         <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
-        <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+        <div class="particle" style="left: 85%; animation-delay: 2s;"></div>
     </div>
     
     <div class="profile">
@@ -295,79 +277,102 @@
         <div class="name">Tyler Delano</div>
         <div class="tagline">Builder. Founder. AI Engineer.</div>
         <div class="stats">
-            <div class="stat">
-                <span class="stat-number">5</span>
-                <span>Repos</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">1</span>
-                <span>Products</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">∞</span>
-                <span>Potential</span>
-            </div>
+            <div class="stat"><span class="stat-number">5</span> Repos</div>
+            <div class="stat"><span class="stat-number">1</span> Product</div>
+            <div class="stat"><span class="stat-number">∞</span> Potential</div>
         </div>
     </div>
     
-    <div class="links">
-        <a href="https://www.clawplex.dev" class="link" target="_blank">
-            <div class="link-icon">🦞</div>
-            <div class="link-text">
-                <div class="link-title">Clawplex</div>
-                <div class="link-desc">DFW AI Community</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-        
-        <a href="https://flume.sh" class="link" target="_blank">
-            <div class="link-icon">⚡</div>
-            <div class="link-text">
-                <div class="link-title">Flume.sh</div>
-                <div class="link-desc">Autonomous SaaS Factory</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-        
-        <a href="https://github.com/tylerdotai/lightweight-crm" class="link" target="_blank">
-            <div class="link-icon">📊</div>
-            <div class="link-text">
-                <div class="link-title">Lightweight CRM</div>
-                <div class="link-desc">Agent-first Sales Pipeline</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-        
-        <a href="https://linkedin.com/in/tylerpdelano" class="link" target="_blank">
-            <div class="link-icon">💼</div>
-            <div class="link-text">
-                <div class="link-title">LinkedIn</div>
-                <div class="link-desc">Let's Connect</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-        
-        <a href="https://twitter.com/tylerdotai" class="link" target="_blank">
-            <div class="link-icon">🐦</div>
-            <div class="link-text">
-                <div class="link-title">Twitter / X</div>
-                <div class="link-desc">@tylerdotai</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
-        
-        <a href="https://github.com/tylerdotai" class="link" target="_blank">
-            <div class="link-icon">💻</div>
-            <div class="link-text">
-                <div class="link-title">GitHub</div>
-                <div class="link-desc">All the Code</div>
-            </div>
-            <div class="link-arrow">→</div>
-        </a>
+    <div class="section">
+        <div class="section-title">Projects</div>
+        <div class="links">
+            <a href="https://flume.sh" class="link" target="_blank">
+                <div class="link-icon">⚡</div>
+                <div class="link-text">
+                    <div class="link-title">Flume.sh</div>
+                    <div class="link-desc">Autonomous SaaS Factory</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+            <a href="https://tylerdotai.github.io/personal-site" class="link" target="_blank">
+                <div class="link-icon">⌨️</div>
+                <div class="link-text">
+                    <div class="link-title">Terminal Portfolio</div>
+                    <div class="link-desc">Interactive CLI-style website</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+            <a href="https://github.com/tylerdotai/proof" class="link" target="_blank">
+                <div class="link-icon">🔐</div>
+                <div class="link-text">
+                    <div class="link-title">Proof</div>
+                    <div class="link-desc">ZK Credential Vault</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Community</div>
+        <div class="links">
+            <a href="https://www.clawplex.dev" class="link" target="_blank">
+                <div class="link-icon">🦞</div>
+                <div class="link-text">
+                    <div class="link-title">Clawplex</div>
+                    <div class="link-desc">DFW AI Community</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Contact</div>
+        <div class="links">
+            <a href="mailto:tyler@flume.sh" class="link" target="_blank">
+                <div class="link-icon">@</div>
+                <div class="link-text">
+                    <div class="link-title">Email</div>
+                    <div class="link-desc">Get in touch</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">Social</div>
+        <div class="links">
+            <a href="https://linkedin.com/in/tylerpdelano" class="link" target="_blank">
+                <div class="link-icon">in</div>
+                <div class="link-text">
+                    <div class="link-title">LinkedIn</div>
+                    <div class="link-desc">Let's Connect</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+            <a href="https://twitter.com/tylerdotai" class="link" target="_blank">
+                <div class="link-icon">X</div>
+                <div class="link-text">
+                    <div class="link-title">Twitter / X</div>
+                    <div class="link-desc">@tylerdotai</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+            <a href="https://github.com/tylerdotai" class="link" target="_blank">
+                <div class="link-icon">GH</div>
+                <div class="link-text">
+                    <div class="link-title">GitHub</div>
+                    <div class="link-desc">All the Code</div>
+                </div>
+                <div class="link-arrow">→</div>
+            </a>
+        </div>
     </div>
     
     <div class="footer">
-        Built by <a href="#">Hoss</a> 🤖
+        Built by <a href="#">Hoss</a>
     </div>
 </body>
 </html>
