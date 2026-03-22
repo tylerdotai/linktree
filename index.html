@@ -4,383 +4,425 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tyler Delano | Links</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         :root {
-            --bg-dark: #0a0a0f;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
+            --bg-dark: #09090b;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
             --accent: #e94560;
-            --accent-glow: rgba(233, 69, 96, 0.4);
-            --text: #ffffff;
-            --text-muted: #888888;
+            --accent-glow: rgba(233, 69, 96, 0.3);
+            --text: #fafafa;
+            --text-muted: #71717a;
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'JetBrains Mono', monospace;
             background: var(--bg-dark);
             background-image: 
-                radial-gradient(ellipse at top, rgba(233, 69, 96, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+                radial-gradient(ellipse at top, rgba(233, 69, 96, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Feature 4: Background Animation */
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 12s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+            margin: 0 auto;
             padding: 60px 20px;
         }
-        
+
+        /* Feature 1: Entrance Animations */
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
+            from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes glow {
+
+        @keyframes glow-pulse {
             0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
             50% { box-shadow: 0 0 40px var(--accent-glow), 0 0 60px var(--accent-glow); }
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-        
+
         .profile {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
             animation: fadeInDown 0.6s ease-out;
         }
-        
+
         .avatar-container {
             position: relative;
             display: inline-block;
             margin-bottom: 20px;
         }
-        
+
         .avatar {
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--accent);
-            animation: glow 3s ease-in-out infinite;
+            animation: glow-pulse 3s ease-in-out infinite;
         }
-        
-        .avatar-ring {
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            background: linear-gradient(45deg, var(--accent), #6366f1, var(--accent)) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: spin 4s linear infinite;
-        }
-        
+
         .name {
-            color: var(--text);
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 6px;
+            letter-spacing: -0.5px;
         }
-        
+
         .tagline {
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-top: 14px;
-        }
-        
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 6px;
             color: var(--text-muted);
             font-size: 14px;
         }
-        
-        .stat-number {
-            color: var(--text);
-            font-weight: 600;
+
+        /* Feature 5: Keyboard Navigation Display */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
         }
-        
+
+        .keyboard-hint.visible { opacity: 1; }
+
+        .key {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin: 0 2px;
+            font-size: 11px;
+        }
+
         .section {
-            width: 100%;
-            max-width: 420px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease-out backwards;
         }
-        
+
+        .section:nth-child(2) { animation-delay: 0.15s; }
+        .section:nth-child(3) { animation-delay: 0.25s; }
+        .section:nth-child(4) { animation-delay: 0.35s; }
+        .section:nth-child(5) { animation-delay: 0.45s; }
+
         .section-title {
             color: var(--text-muted);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             padding-left: 4px;
-            animation: fadeInUp 0.6s ease-out backwards;
         }
-        
-        .section:nth-child(2) .section-title { animation-delay: 0.2s; }
-        .section:nth-child(3) .section-title { animation-delay: 0.4s; }
-        
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
+
+        .links { display: flex; flex-direction: column; gap: 10px; }
+
+        /* Feature 2: Hover Glow Effects */
         .link {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 16px 20px;
+            border-radius: 12px;
+            padding: 14px 18px;
             text-decoration: none;
             color: var(--text);
             display: flex;
             align-items: center;
             gap: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: fadeInUp 0.6s ease-out backwards;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .link:nth-child(1) { animation-delay: 0.25s; }
-        .link:nth-child(2) { animation-delay: 0.3s; }
-        .link:nth-child(3) { animation-delay: 0.35s; }
-        .link:nth-child(4) { animation-delay: 0.4s; }
-        .link:nth-child(5) { animation-delay: 0.45s; }
-        .link:nth-child(6) { animation-delay: 0.5s; }
-        .link:nth-child(7) { animation-delay: 0.55s; }
-        
+
+        .link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(233,69,96,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.4s;
+        }
+
+        .link:hover::before {
+            transform: translateX(100%);
+        }
+
         .link:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
             border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 20px var(--accent-glow);
         }
-        
+
+        .link:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
         .link-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.25s;
+            flex-shrink: 0;
         }
-        
+
         .link:hover .link-icon {
             background: var(--accent);
-            transform: scale(1.1);
+            color: white;
+            transform: scale(1.05);
         }
-        
-        .link-text {
-            flex: 1;
-        }
-        
+
+        .link-text { flex: 1; min-width: 0; }
+
         .link-title {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
+            margin-bottom: 2px;
         }
-        
+
         .link-desc {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
-            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        
+
         .link-arrow {
             opacity: 0;
             transform: translateX(-8px);
-            transition: all 0.3s ease;
+            transition: all 0.25s;
             color: var(--text-muted);
         }
-        
+
         .link:hover .link-arrow {
             opacity: 1;
             transform: translateX(0);
         }
-        
+
         .footer {
+            text-align: center;
+            color: #3f3f46;
+            font-size: 12px;
             margin-top: 40px;
-            color: #444;
-            font-size: 13px;
-            animation: fadeInUp 0.6s ease-out 0.6s backwards;
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
         }
-        
-        .footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite;
+
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        /* Test: keyboard navigation active state */
+        .link.active {
+            border-color: var(--accent);
+            background: rgba(233, 69, 96, 0.1);
         }
     </style>
 </head>
 <body>
-    <div class="particles">
-        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="particle" style="left: 25%; animation-delay: 3s;"></div>
-        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
-        <div class="particle" style="left: 55%; animation-delay: 9s;"></div>
-        <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
-        <div class="particle" style="left: 85%; animation-delay: 2s;"></div>
-    </div>
+    <div class="particles" id="particles"></div>
     
-    <div class="profile">
-        <div class="avatar-container">
-            <div class="avatar-ring"></div>
-            <img src="avatar.jpg" alt="Tyler Delano" class="avatar">
+    <div class="container">
+        <div class="profile">
+            <div class="avatar-container">
+                <img src="avatar.jpg" alt="Tyler Delano" class="avatar">
+            </div>
+            <h1 class="name">Tyler Delano</h1>
+            <p class="tagline">Builder. Founder. AI Engineer.</p>
         </div>
-        <div class="name">Tyler Delano</div>
-        <div class="tagline">Builder. Founder. AI Engineer.</div>
-        <div class="stats">
-            <div class="stat"><span class="stat-number">5</span> Repos</div>
-            <div class="stat"><span class="stat-number">1</span> Product</div>
-            <div class="stat"><span class="stat-number">∞</span> Potential</div>
+
+        <div class="section">
+            <h2 class="section-title">Projects</h2>
+            <div class="links">
+                <a href="https://flume.sh" class="link" target="_blank" data-key="1">
+                    <div class="link-icon">FL</div>
+                    <div class="link-text">
+                        <div class="link-title">Flume.sh</div>
+                        <div class="link-desc">Autonomous SaaS Factory</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+                <a href="https://tylerdotai.github.io/personal-site" class="link" target="_blank" data-key="2">
+                    <div class="link-icon">TS</div>
+                    <div class="link-text">
+                        <div class="link-title">Terminal Portfolio</div>
+                        <div class="link-desc">Interactive CLI-style website</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+                <a href="https://github.com/tylerdotai/proof" class="link" target="_blank" data-key="3">
+                    <div class="link-icon">PF</div>
+                    <div class="link-text">
+                        <div class="link-title">Proof</div>
+                        <div class="link-desc">ZK Credential Vault</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+            </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">Projects</div>
-        <div class="links">
-            <a href="https://flume.sh" class="link" target="_blank">
-                <div class="link-icon">FL</div>
-                <div class="link-text">
-                    <div class="link-title">Flume.sh</div>
-                    <div class="link-desc">Autonomous SaaS Factory</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
-            <a href="https://tylerdotai.github.io/personal-site" class="link" target="_blank">
-                <div class="link-icon">TS</div>
-                <div class="link-text">
-                    <div class="link-title">Terminal Portfolio</div>
-                    <div class="link-desc">Interactive CLI-style website</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
-            <a href="https://github.com/tylerdotai/proof" class="link" target="_blank">
-                <div class="link-icon">PF</div>
-                <div class="link-text">
-                    <div class="link-title">Proof</div>
-                    <div class="link-desc">ZK Credential Vault</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
+
+        <div class="section">
+            <h2 class="section-title">Community</h2>
+            <div class="links">
+                <a href="https://www.clawplex.dev" class="link" target="_blank" data-key="4">
+                    <div class="link-icon">CP</div>
+                    <div class="link-text">
+                        <div class="link-title">Clawplex</div>
+                        <div class="link-desc">DFW AI Community</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+                <a href="https://discord.gg/q8kEquTu3z" class="link" target="_blank" data-key="5">
+                    <div class="link-icon">DC</div>
+                    <div class="link-text">
+                        <div class="link-title">Discord</div>
+                        <div class="link-desc">Join the conversation</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+            </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">Community</div>
-        <div class="links">
-            <a href="https://www.clawplex.dev" class="link" target="_blank">
-                <div class="link-icon">CP</div>
-                <div class="link-text">
-                    <div class="link-title">Clawplex</div>
-                    <div class="link-desc">DFW AI Community</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
-            <a href="https://discord.gg/q8kEquTu3z" class="link" target="_blank">
-                <div class="link-icon">DC</div>
-                <div class="link-text">
-                    <div class="link-title">Discord</div>
-                    <div class="link-desc">Join the conversation</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
+
+        <div class="section">
+            <h2 class="section-title">Contact</h2>
+            <div class="links">
+                <a href="mailto:tyler.delano@icloud.com" class="link" target="_blank" data-key="6">
+                    <div class="link-icon">@</div>
+                    <div class="link-text">
+                        <div class="link-title">Email</div>
+                        <div class="link-desc">tyler.delano@icloud.com</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+            </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">Contact</div>
-        <div class="links">
-            <a href="mailto:tyler.delano@icloud.com" class="link" target="_blank">
-                <div class="link-icon">@</div>
-                <div class="link-text">
-                    <div class="link-title">Email</div>
-                    <div class="link-desc">Get in touch</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
+
+        <div class="section">
+            <h2 class="section-title">Social</h2>
+            <div class="links">
+                <a href="https://linkedin.com/in/tylerpdelano" class="link" target="_blank" data-key="7">
+                    <div class="link-icon">in</div>
+                    <div class="link-text">
+                        <div class="link-title">LinkedIn</div>
+                        <div class="link-desc">Let's Connect</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+                <a href="https://twitter.com/tylerdotai" class="link" target="_blank" data-key="8">
+                    <div class="link-icon">X</div>
+                    <div class="link-text">
+                        <div class="link-title">Twitter / X</div>
+                        <div class="link-desc">@tylerdotai</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+                <a href="https://github.com/tylerdotai" class="link" target="_blank" data-key="9">
+                    <div class="link-icon">GH</div>
+                    <div class="link-text">
+                        <div class="link-title">GitHub</div>
+                        <div class="link-desc">All the Code</div>
+                    </div>
+                    <div class="link-arrow">→</div>
+                </a>
+            </div>
         </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">Social</div>
-        <div class="links">
-            <a href="https://linkedin.com/in/tylerpdelano" class="link" target="_blank">
-                <div class="link-icon">in</div>
-                <div class="link-text">
-                    <div class="link-title">LinkedIn</div>
-                    <div class="link-desc">Let's Connect</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
-            <a href="https://twitter.com/tylerdotai" class="link" target="_blank">
-                <div class="link-icon">X</div>
-                <div class="link-text">
-                    <div class="link-title">Twitter / X</div>
-                    <div class="link-desc">@tylerdotai</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
-            <a href="https://github.com/tylerdotai" class="link" target="_blank">
-                <div class="link-icon">GH</div>
-                <div class="link-text">
-                    <div class="link-title">GitHub</div>
-                    <div class="link-desc">All the Code</div>
-                </div>
-                <div class="link-arrow">→</div>
-            </a>
+
+        <div class="footer">
+            Built by <a href="#">Hoss</a>
         </div>
     </div>
-    
-    <div class="footer">
-        Built by <a href="#">Hoss</a>
+
+    <div class="keyboard-hint" id="keyboardHint">
+        Press <span class="key">1</span>-<span class="key">9</span> to navigate
     </div>
+
+    <script>
+        // Feature 4: Particle Background
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 12 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Feature 5: Keyboard Navigation
+        const links = document.querySelectorAll('.link');
+        const hint = document.getElementById('keyboardHint');
+        let activeIndex = -1;
+
+        function showHint() { hint.classList.add('visible'); }
+        function hideHint() { hint.classList.remove('visible'); }
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key;
+            if (key >= '1' && key <= '9') {
+                const index = parseInt(key) - 1;
+                if (links[index]) {
+                    showHint();
+                    links[index].click();
+                    setTimeout(hideHint, 3000);
+                }
+            }
+        });
+
+        document.addEventListener('mousemove', () => { hideHint(); });
+    </script>
 </body>
 </html>
