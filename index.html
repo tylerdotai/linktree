@@ -9,420 +9,431 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #09090b;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
+            --device-purple: #1a1625;
+            --device-purple-light: #2d2640;
+            --device-purple-dark: #0f0d14;
+            --screen-bg: #0d1a0d;
+            --screen-green: #9bbc0f;
+            --screen-green-dark: #0f380f;
+            --screen-green-light: #8bac0f;
+            --button-a: #e94560;
+            --button-b: #e94560;
+            --dpad: #15101d;
             --accent: #e94560;
-            --accent-glow: rgba(233, 69, 96, 0.3);
-            --text: #fafafa;
-            --text-muted: #71717a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'JetBrains Mono', monospace;
-            background: var(--bg-dark);
-            background-image: 
-                radial-gradient(ellipse at top, rgba(233, 69, 96, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+            background: #09090b;
             min-height: 100vh;
-            color: var(--text);
-            overflow-x: hidden;
-        }
-
-        /* Feature 4: Background Animation */
-        .particles {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0;
-            animation: float 12s infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        /* Feature 1: Entrance Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
-            50% { box-shadow: 0 0 40px var(--accent-glow), 0 0 60px var(--accent-glow); }
-        }
-
-        .profile {
-            text-align: center;
-            margin-bottom: 48px;
-            animation: fadeInDown 0.6s ease-out;
-        }
-
-        .avatar-container {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--accent);
-            animation: glow-pulse 3s ease-in-out infinite;
-        }
-
-        .name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .tagline {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        /* Feature 5: Keyboard Navigation Display */
-        .keyboard-hint {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 12px;
-            color: var(--text-muted);
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 10;
-        }
-
-        .keyboard-hint.visible { opacity: 1; }
-
-        .key {
-            display: inline-block;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 4px;
-            padding: 2px 8px;
-            margin: 0 2px;
-            font-size: 11px;
-        }
-
-        .section {
-            margin-bottom: 28px;
-            animation: fadeInUp 0.6s ease-out backwards;
-        }
-
-        .section:nth-child(2) { animation-delay: 0.15s; }
-        .section:nth-child(3) { animation-delay: 0.25s; }
-        .section:nth-child(4) { animation-delay: 0.35s; }
-        .section:nth-child(5) { animation-delay: 0.45s; }
-
-        .section-title {
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 14px;
-            padding-left: 4px;
-        }
-
-        .links { display: flex; flex-direction: column; gap: 10px; }
-
-        /* Feature 2: Hover Glow Effects */
-        .link {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 14px 18px;
-            text-decoration: none;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .link::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(233,69,96,0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.4s;
-        }
-
-        .link:hover::before {
-            transform: translateX(100%);
-        }
-
-        .link:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 20px var(--accent-glow);
-        }
-
-        .link:focus {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        .link-icon {
-            width: 36px;
-            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.06);
+            padding: 20px;
+        }
+
+        /* === PHASE 1: DEVICE SHELL === */
+        .device {
+            width: 320px;
+            background: linear-gradient(145deg, var(--device-purple-light), var(--device-purple-dark));
+            border-radius: 24px 24px 60px 60px;
+            padding: 20px;
+            box-shadow: 
+                0 0 0 3px var(--device-purple-dark),
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        /* Screen bezel */
+        .screen-bezel {
+            background: #0a0810;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        /* Screen area */
+        .screen {
+            background: var(--screen-bg);
             border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            transition: all 0.25s;
-            flex-shrink: 0;
-        }
-
-        .link:hover .link-icon {
-            background: var(--accent);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .link-text { flex: 1; min-width: 0; }
-
-        .link-title {
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 2px;
-        }
-
-        .link-desc {
-            font-size: 12px;
-            color: var(--text-muted);
-            white-space: nowrap;
+            height: 200px;
+            position: relative;
             overflow: hidden;
-            text-overflow: ellipsis;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
 
-        .link-arrow {
-            opacity: 0;
-            transform: translateX(-8px);
-            transition: all 0.25s;
-            color: var(--text-muted);
+        /* Scanlines */
+        .screen::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.1) 2px,
+                rgba(0,0,0,0.1) 4px
+            );
+            pointer-events: none;
         }
 
-        .link:hover .link-arrow {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .footer {
-            text-align: center;
-            color: #3f3f46;
+        /* Screen content */
+        .screen-content {
+            padding: 16px;
+            color: var(--screen-green);
             font-size: 12px;
-            margin-top: 40px;
-            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+            line-height: 1.6;
         }
 
-        .footer a { color: var(--accent); text-decoration: none; }
+        .screen-header {
+            text-align: center;
+            border-bottom: 1px solid var(--screen-green-dark);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
 
-        /* Test: keyboard navigation active state */
-        .link.active {
-            border-color: var(--accent);
-            background: rgba(233, 69, 96, 0.1);
+        .menu-item {
+            padding: 6px 8px;
+            border-radius: 4px;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+
+        .menu-item.selected {
+            opacity: 1;
+            background: var(--screen-green-dark);
+            color: var(--screen-green-light);
+        }
+
+        .menu-item::before {
+            content: '> ';
+            opacity: 0;
+        }
+
+        .menu-item.selected::before {
+            opacity: 1;
+        }
+
+        /* === PHASE 2: BUTTON LAYOUT === */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        /* D-Pad */
+        .dpad {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+
+        .dpad-btn {
+            position: absolute;
+            background: var(--dpad);
+            border: none;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .dpad-btn:active {
+            transform: scale(0.95);
+        }
+
+        .dpad-up, .dpad-down {
+            width: 28px;
+            height: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 6px;
+            box-shadow: 0 2px 0 #0a0810;
+        }
+
+        .dpad-up { top: 0; }
+        .dpad-down { bottom: 0; }
+
+        .dpad-left, .dpad-right {
+            width: 32px;
+            height: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 6px;
+            box-shadow: 0 2px 0 #0a0810;
+        }
+
+        .dpad-left { left: 0; }
+        .dpad-right { right: 0; }
+
+        .dpad-center {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--dpad);
+            border-radius: 50%;
+        }
+
+        /* AB Buttons */
+        .ab-buttons {
+            display: flex;
+            gap: 12px;
+            transform: rotate(-15deg);
+            margin-right: 10px;
+        }
+
+        .ab-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            box-shadow: 0 4px 0 #0a0810;
+            transition: all 0.1s;
+        }
+
+        .ab-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #0a0810;
+        }
+
+        .btn-a { background: var(--button-a); }
+        .btn-b { background: var(--button-b); }
+
+        /* Start/Select */
+        .meta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .meta-btn {
+            width: 50px;
+            height: 12px;
+            background: #15101d;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #0a0810;
+        }
+
+        .meta-btn-label {
+            text-align: center;
+            font-size: 8px;
+            color: #666;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* Speaker */
+        .speaker {
+            position: absolute;
+            right: 20px;
+            bottom: 80px;
+            display: grid;
+            grid-template-columns: repeat(6, 4px);
+            gap: 4px;
+        }
+
+        .speaker-dot {
+            width: 4px;
+            height: 4px;
+            background: #0a0810;
+            border-radius: 50%;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .device {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
-    <div class="container">
-        <div class="profile">
-            <div class="avatar-container">
-                <img src="avatar.jpg" alt="Tyler Delano" class="avatar">
-            </div>
-            <h1 class="name">Tyler Delano</h1>
-            <p class="tagline">Builder. Founder. AI Engineer.</p>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">Projects</h2>
-            <div class="links">
-                <a href="https://flume.sh" class="link" target="_blank" data-key="1">
-                    <div class="link-icon">FL</div>
-                    <div class="link-text">
-                        <div class="link-title">Flume.sh</div>
-                        <div class="link-desc">Autonomous SaaS Factory</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-                <a href="https://tylerdotai.github.io/personal-site" class="link" target="_blank" data-key="2">
-                    <div class="link-icon">TS</div>
-                    <div class="link-text">
-                        <div class="link-title">Terminal Portfolio</div>
-                        <div class="link-desc">Interactive CLI-style website</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-                <a href="https://github.com/tylerdotai/proof" class="link" target="_blank" data-key="3">
-                    <div class="link-icon">PF</div>
-                    <div class="link-text">
-                        <div class="link-title">Proof</div>
-                        <div class="link-desc">ZK Credential Vault</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
+    <div class="device">
+        <!-- PHASE 1: Screen -->
+        <div class="screen-bezel">
+            <div class="screen">
+                <div class="screen-content">
+                    <div class="screen-header">TYLER</div>
+                    <div class="menu-item selected">Projects</div>
+                    <div class="menu-item">Community</div>
+                    <div class="menu-item">Contact</div>
+                    <div class="menu-item">Social</div>
+                </div>
             </div>
         </div>
 
-        <div class="section">
-            <h2 class="section-title">Community</h2>
-            <div class="links">
-                <a href="https://www.clawplex.dev" class="link" target="_blank" data-key="4">
-                    <div class="link-icon">CP</div>
-                    <div class="link-text">
-                        <div class="link-title">Clawplex</div>
-                        <div class="link-desc">DFW AI Community</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-                <a href="https://discord.gg/q8kEquTu3z" class="link" target="_blank" data-key="5">
-                    <div class="link-icon">DC</div>
-                    <div class="link-text">
-                        <div class="link-title">Discord</div>
-                        <div class="link-desc">Join the conversation</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
+        <!-- PHASE 2: D-Pad -->
+        <div class="controls">
+            <div class="dpad">
+                <button class="dpad-btn dpad-up" data-dir="up" aria-label="Up"></button>
+                <button class="dpad-btn dpad-down" data-dir="down" aria-label="Down"></button>
+                <button class="dpad-btn dpad-left" data-dir="left" aria-label="Left"></button>
+                <button class="dpad-btn dpad-right" data-dir="right" aria-label="Right"></button>
+                <div class="dpad-center"></div>
+            </div>
+
+            <div class="ab-buttons">
+                <button class="ab-btn btn-b" data-action="b">B</button>
+                <button class="ab-btn btn-a" data-action="a">A</button>
             </div>
         </div>
 
-        <div class="section">
-            <h2 class="section-title">Contact</h2>
-            <div class="links">
-                <a href="mailto:tyler.delano@icloud.com" class="link" target="_blank" data-key="6">
-                    <div class="link-icon">@</div>
-                    <div class="link-text">
-                        <div class="link-title">Email</div>
-                        <div class="link-desc">tyler.delano@icloud.com</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
+        <div class="meta-buttons">
+            <div>
+                <button class="meta-btn" data-action="select"></button>
+                <div class="meta-btn-label">SELECT</div>
+            </div>
+            <div>
+                <button class="meta-btn" data-action="start"></button>
+                <div class="meta-btn-label">START</div>
             </div>
         </div>
 
-        <div class="section">
-            <h2 class="section-title">Social</h2>
-            <div class="links">
-                <a href="https://linkedin.com/in/tylerpdelano" class="link" target="_blank" data-key="7">
-                    <div class="link-icon">in</div>
-                    <div class="link-text">
-                        <div class="link-title">LinkedIn</div>
-                        <div class="link-desc">Let's Connect</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-                <a href="https://twitter.com/tylerdotai" class="link" target="_blank" data-key="8">
-                    <div class="link-icon">X</div>
-                    <div class="link-text">
-                        <div class="link-title">Twitter / X</div>
-                        <div class="link-desc">@tylerdotai</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-                <a href="https://github.com/tylerdotai" class="link" target="_blank" data-key="9">
-                    <div class="link-icon">GH</div>
-                    <div class="link-text">
-                        <div class="link-title">GitHub</div>
-                        <div class="link-desc">All the Code</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-            </div>
+        <div class="speaker">
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
+            <div class="speaker-dot"></div>
         </div>
-
-        <div class="footer">
-            Built by <a href="#">Hoss</a>
-        </div>
-    </div>
-
-    <div class="keyboard-hint" id="keyboardHint">
-        Press <span class="key">1</span>-<span class="key">9</span> to navigate
     </div>
 
     <script>
-        // Feature 4: Particle Background
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 15; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 12 + 's';
-                particle.style.animationDuration = (10 + Math.random() * 4) + 's';
-                container.appendChild(particle);
-            }
+        // === PHASE 5: D-PAD NAVIGATION ===
+        const menuItems = document.querySelectorAll('.menu-item');
+        let selectedIndex = 0;
+
+        function updateSelection() {
+            menuItems.forEach((item, i) => {
+                item.classList.toggle('selected', i === selectedIndex);
+            });
         }
-        createParticles();
 
-        // Feature 5: Keyboard Navigation
-        const links = document.querySelectorAll('.link');
-        const hint = document.getElementById('keyboardHint');
-        let activeIndex = -1;
-
-        function showHint() { hint.classList.add('visible'); }
-        function hideHint() { hint.classList.remove('visible'); }
-
-        document.addEventListener('keydown', (e) => {
-            const key = e.key;
-            if (key >= '1' && key <= '9') {
-                const index = parseInt(key) - 1;
-                if (links[index]) {
-                    showHint();
-                    links[index].click();
-                    setTimeout(hideHint, 3000);
+        // D-pad navigation
+        document.querySelectorAll('.dpad-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const dir = btn.dataset.dir;
+                if (dir === 'up') {
+                    selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
+                } else if (dir === 'down') {
+                    selectedIndex = (selectedIndex + 1) % menuItems.length;
                 }
+                updateSelection();
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
+                updateSelection();
+            } else if (e.key === 'ArrowDown') {
+                selectedIndex = (selectedIndex + 1) % menuItems.length;
+                updateSelection();
             }
         });
 
-        document.addEventListener('mousemove', () => { hideHint(); });
+        // === TDD TESTS ===
+        const tests = {
+            passed: 0,
+            failed: 0,
+            results: []
+        };
+
+        function test(name, fn) {
+            try {
+                fn();
+                tests.passed++;
+                tests.results.push(`PASS: ${name}`);
+            } catch (e) {
+                tests.failed++;
+                tests.results.push(`FAIL: ${name} - ${e.message}`);
+            }
+        }
+
+        function assert(condition, message) {
+            if (!condition) throw new Error(message);
+        }
+
+        // Run tests
+        test('Device element exists', () => {
+            assert(document.querySelector('.device') !== null, 'Device not found');
+        });
+
+        test('Screen exists', () => {
+            assert(document.querySelector('.screen') !== null, 'Screen not found');
+        });
+
+        test('D-pad has 4 buttons', () => {
+            const btns = document.querySelectorAll('.dpad-btn');
+            assert(btns.length === 4, 'Expected 4 dpad buttons');
+        });
+
+        test('A and B buttons exist', () => {
+            assert(document.querySelector('.btn-a') !== null, 'A button not found');
+            assert(document.querySelector('.btn-b') !== null, 'B button not found');
+        });
+
+        test('Menu has 4 items', () => {
+            const items = document.querySelectorAll('.menu-item');
+            assert(items.length === 4, 'Expected 4 menu items');
+        });
+
+        test('Start and Select exist', () => {
+            assert(document.querySelector('[data-action="start"]') !== null, 'Start not found');
+            assert(document.querySelector('[data-action="select"]') !== null, 'Select not found');
+        });
+
+        test('Selection starts at 0', () => {
+            assert(selectedIndex === 0, 'Initial selection should be 0');
+        });
+
+        test('Navigation wraps (down)', () => {
+            selectedIndex = 3;
+            // Simulate down press
+            selectedIndex = (selectedIndex + 1) % menuItems.length;
+            assert(selectedIndex === 0, 'Should wrap to 0');
+        });
+
+        test('Navigation wraps (up)', () => {
+            selectedIndex = 0;
+            // Simulate up press
+            selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
+            assert(selectedIndex === 3, 'Should wrap to 3');
+        });
+
+        // Output results
+        console.log('=== TDD TEST RESULTS ===');
+        tests.results.forEach(r => console.log(r));
+        console.log(`\nTOTAL: ${tests.passed} passed, ${tests.failed} failed`);
+        
+        if (tests.failed > 0) {
+            throw new Error('Tests failed!');
+        }
     </script>
 </body>
 </html>
