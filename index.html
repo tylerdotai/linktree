@@ -3,543 +3,1200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyler Delano</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Tyler Delano | Links</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gray: #989898;
-            --gray-light: #c8c8c8;
-            --gray-dark: #585858;
-            --bezel: #3a3a48;
-            --screen-bg: #0f380f;
+            --device-purple: #1a1625;
+            --device-purple-light: #2d2640;
+            --device-purple-dark: #0f0d14;
+            --device-purple-highlight: #3d3655;
+            
+            --screen-bg: #0d1a0d;
             --screen-green: #9bbc0f;
+            --screen-green-dark: #0f380f;
+            --screen-green-light: #8bac0f;
+            --screen-glow: rgba(155, 188, 15, 0.15);
+            
+            --button-a: #e94560;
+            --button-a-dark: #b8344d;
+            --button-b: #e94560;
+            --button-b-dark: #b8344d;
+            
+            --dpad: #15101d;
+            --dpad-light: #1f1a2d;
+            --dpad-dark: #0a0810;
+            
+            --accent: #e94560;
+            --accent-glow: rgba(233, 69, 96, 0.4);
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
-            font-family: 'Press Start 2P', monospace;
-            background: #1a1a1a;
+            font-family: 'JetBrains Mono', monospace;
+            background: #09090b;
+            background-image: 
+                radial-gradient(ellipse at center, rgba(233, 69, 96, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, rgba(45, 38, 64, 0.3) 0%, transparent 50%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        
-        .container { display: flex; flex-direction: column; align-items: center; }
-        
-        /* GAME BOY */
-        .gameboy {
-            width: 260px;
-            background: linear-gradient(180deg, var(--gray-light) 0%, var(--gray) 30%, var(--gray-dark) 100%);
-            border-radius: 6px 6px 40px 40px;
-            padding: 14px 12px 24px;
+
+        .device {
+            width: 320px;
+            background: linear-gradient(180deg, var(--device-purple-light) 0%, var(--device-purple) 50%, var(--device-purple-dark) 100%);
+            border-radius: 24px 24px 70px 70px;
+            padding: 20px;
             box-shadow: 
-                0 0 0 2px #484848,
-                0 25px 50px rgba(0,0,0,0.5),
-                inset 0 2px 0 rgba(255,255,255,0.25),
-                inset 0 -2px 0 rgba(0,0,0,0.1);
-        }
-        
-        /* SCREEN BEZEL - contains LED + screen */
-        .screen-bezel {
-            background: var(--bezel);
-            border-radius: 5px 5px 20px 20px;
-            padding: 12px;
-            margin-bottom: 18px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-            display: flex;
-            gap: 8px;
-        }
-        
-        /* LED SECTION - inside bezel */
-        .led-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            flex-shrink: 0;
-        }
-        
-        .led {
-            width: 5px; height: 5px;
-            background: #222;
-            border-radius: 50%;
-        }
-        
-        .led.on {
-            background: #e03030;
-            box-shadow: 0 0 6px #e03030, 0 0 10px rgba(224,48,48,0.5);
-        }
-        
-        .led-label {
-            font-size: 4px;
-            color: #555;
-            margin-top: 3px;
-        }
-        
-        /* SCREEN AREA */
-        .screen-area {
-            flex: 1;
-        }
-        
-        .screen-label-top {
-            font-size: 4px;
-            color: #555;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-        
-        .screen-frame {
-            background: #1a1a1a;
-            border-radius: 2px;
-            padding: 2px;
-        }
-        
-        .screen {
-            width: 130px;
-            height: 110px;
-            background: var(--screen-bg);
+                0 0 0 2px var(--device-purple-dark),
+                0 25px 80px rgba(0, 0, 0, 0.6),
+                0 15px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.08),
+                inset 0 -1px 0 rgba(0,0,0,0.3);
             position: relative;
         }
-        
+
+        .device::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        }
+
+        .screen-bezel {
+            background: linear-gradient(145deg, #0d0a14, #08060d);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 24px;
+            box-shadow: 
+                inset 0 3px 12px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(255,255,255,0.05),
+                0 1px 0 rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .screen-frame {
+            background: #050408;
+            border-radius: 8px;
+            padding: 4px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .screen {
+            background: var(--screen-bg);
+            border-radius: 6px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 0 30px rgba(0,0,0,0.6),
+                inset 0 0 15px rgba(0,0,0,0.4),
+                0 0 10px var(--screen-glow);
+        }
+
+        .screen::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.08) 2px,
+                rgba(0,0,0,0.08) 4px
+            );
+            pointer-events: none;
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        .screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top, rgba(155,188,15,0.03) 0%, transparent 50%);
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.52; }
+        }
+
+        /* PHASE 10: Accessibility - Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* PHASE 10: Mobile optimization */
+        @media (max-width: 380px) {
+            .device {
+                width: 95%;
+                max-width: 300px;
+                padding: 14px;
+            }
+            
+            .screen {
+                height: 170px;
+            }
+            
+            .screen-content {
+                padding: 8px;
+                font-size: 10px;
+            }
+            
+            .menu-title {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+            
+            .dpad {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .dpad-up, .dpad-down { width: 24px; height: 28px; }
+            .dpad-left, .dpad-right { width: 28px; height: 24px; }
+            .dpad-center { width: 24px; height: 24px; }
+            
+            .ab-buttons { gap: 10px; }
+            .ab-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+            
+            .meta-btn { width: 36px; }
+            .speaker { right: 16px; bottom: 70px; }
+            .speaker-dot { width: 4px; height: 4px; }
+            .power-led { left: 20px; }
+            
+            .view-toggle {
+                bottom: -35px;
+                padding: 6px 12px;
+                font-size: 9px;
+            }
+            
+            .list-view { padding: 20px 15px; }
+            .list-view .link { padding: 10px 12px; font-size: 13px; }
+        }
+
+        /* Touch improvements */
+        button {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
         .screen-content {
-            padding: 6px;
+            padding: 12px;
             color: var(--screen-green);
-            font-size: 4px;
-            line-height: 1.8;
+            font-size: 11px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
             height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
-        
-        .avatar {
-            width: 14px; height: 14px;
-            object-fit: cover;
-            border-radius: 2px;
-            margin-bottom: 2px;
-        }
-        
-        .menu-title {
-            font-size: 5px;
-            border-bottom: 1px dashed var(--screen-green);
-            padding-bottom: 2px;
-            margin-bottom: 2px;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .menu-items {
-            flex: 1;
+
+        .status-bar {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 1px;
-            width: 100%;
+            margin-bottom: 8px;
+            font-size: 8px;
+            color: var(--screen-green-dark);
         }
-        
-        .menu-item {
-            padding: 1px 3px;
-            width: 100%;
+
+        .battery {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .battery-icon {
+            width: 18px;
+            height: 9px;
+            border: 1px solid var(--screen-green-dark);
+            border-radius: 2px;
+            padding: 1px;
+        }
+
+        .battery-level {
+            height: 100%;
+            width: 80%;
+            background: var(--screen-green);
+            border-radius: 1px;
+        }
+
+        .menu-title {
             text-align: center;
-            opacity: 0.5;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--screen-green-dark);
+            text-shadow: 0 0 8px var(--screen-green);
         }
-        
+
+        .menu-list {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* PHASE 6: Menu transitions */
+        .menu-list::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--screen-bg);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.1s;
+            pointer-events: none;
+        }
+
+        .menu-list.transitioning::before {
+            opacity: 1;
+        }
+
+        .menu-item {
+            transition: all 0.15s ease-out;
+        }
+
+        /* PHASE 7: Animations */
+        @keyframes menuSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes menuSlideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        @keyframes buttonPress {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .menu-animate-in .menu-item {
+            animation: menuSlideIn 0.2s ease-out forwards;
+            opacity: 0;
+        }
+
+        .menu-animate-in .menu-item:nth-child(1) { animation-delay: 0s; }
+        .menu-animate-in .menu-item:nth-child(2) { animation-delay: 0.05s; }
+        .menu-animate-in .menu-item:nth-child(3) { animation-delay: 0.1s; }
+        .menu-animate-in .menu-item:nth-child(4) { animation-delay: 0.15s; }
+        .menu-animate-in .menu-item:nth-child(5) { animation-delay: 0.2s; }
+
+        @keyframes screenBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .screen-blink {
+            animation: screenBlink 0.1s ease-in-out;
+        }
+
+        .menu-item {
+            padding: 5px 8px;
+            border-radius: 3px;
+            opacity: 0.5;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .menu-item.selected {
             opacity: 1;
-            background: var(--screen-green);
-            color: var(--screen-bg);
+            background: var(--screen-green-dark);
+            color: var(--screen-green-light);
+            box-shadow: 
+                0 0 10px var(--screen-glow),
+                inset 0 0 8px rgba(155,188,15,0.1);
+            font-weight: 600;
         }
-        
+
+        .menu-item .arrow {
+            width: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .menu-item.selected .arrow {
+            opacity: 1;
+            text-shadow: 0 0 5px var(--screen-green);
+        }
+
+        .menu-item .label {
+            flex: 1;
+        }
+
         .menu-footer {
-            font-size: 3px;
-            margin-top: auto;
-            opacity: 0.5;
-        }
-        
-        .screen-label-bottom {
-            font-size: 4px;
-            color: var(--gray-dark);
+            font-size: 7px;
+            color: var(--screen-green-dark);
             text-align: center;
-            margin-top: 4px;
+            margin-top: 6px;
+            letter-spacing: 1px;
         }
-        
-        .screen-label-bottom span { color: #4848a0; }
-        
-        /* CONTROLS */
+
+        /* Submenu indicator */
+        .has-submenu::after {
+            content: '>';
+            margin-left: auto;
+            font-size: 8px;
+        }
+
+        .menu-item.selected.has-submenu::after {
+            text-shadow: 0 0 5px var(--screen-green);
+        }
+
+        /* View toggle button */
+        .view-toggle {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--device-purple-dark);
+            border: none;
+            color: #666;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+
+        .view-toggle:hover {
+            background: var(--device-purple-light);
+            color: #888;
+        }
+
         .controls {
             display: flex;
             justify-content: space-between;
-            padding: 0 2px;
+            align-items: center;
+            padding: 0 14px;
         }
-        
-        /* D-PAD */
-        .dpad { position: relative; width: 65px; height: 65px; }
-        
+
+        .dpad {
+            position: relative;
+            width: 95px;
+            height: 95px;
+        }
+
         .dpad-btn {
             position: absolute;
-            background: #282828;
+            background: linear-gradient(145deg, var(--dpad-light), var(--dpad));
             border: none;
             cursor: pointer;
-            box-shadow: 0 3px 0 #111, 0 4px 5px rgba(0,0,0,0.3);
+            transition: all 0.1s;
+            box-shadow: 
+                0 4px 0 var(--dpad-dark),
+                0 6px 10px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.05);
         }
-        
-        .dpad-btn:active, .dpad-btn.pressed { transform: translateY(2px); box-shadow: 0 1px 0 #111; }
-        
-        .dpad-up { width: 20px; height: 22px; left: 50%; transform: translateX(-50%); top: 0; border-radius: 3px 3px 5px 5px; }
-        .dpad-down { width: 20px; height: 22px; left: 50%; transform: translateX(-50%); bottom: 0; border-radius: 5px 5px 3px 3px; }
-        .dpad-left { width: 22px; height: 20px; top: 50%; transform: translateY(-50%); left: 0; border-radius: 5px 3px 3px 5px; }
-        .dpad-right { width: 22px; height: 20px; top: 50%; transform: translateY(-50%); right: 0; border-radius: 3px 5px 5px 3px; }
-        
+
+        .dpad-btn:active, .dpad-btn.pressed {
+            transform: translateY(2px);
+            box-shadow: 
+                0 2px 0 var(--dpad-dark),
+                0 3px 5px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .dpad-up, .dpad-down {
+            width: 30px;
+            height: 34px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 6px 6px 10px 10px;
+        }
+
+        .dpad-up { top: 0; border-radius: 8px 8px 12px 12px; }
+        .dpad-down { bottom: 0; border-radius: 12px 12px 8px 8px; }
+
+        .dpad-left, .dpad-right {
+            width: 34px;
+            height: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 10px;
+        }
+
+        .dpad-left { left: 0; border-radius: 12px 6px 6px 12px; }
+        .dpad-right { right: 0; border-radius: 6px 12px 12px 6px; }
+
         .dpad-center {
             position: absolute;
-            width: 20px; height: 20px;
-            left: 50%; top: 50%;
+            width: 30px;
+            height: 30px;
+            left: 50%;
+            top: 50%;
             transform: translate(-50%, -50%);
-            background: #282828;
+            background: linear-gradient(145deg, var(--dpad), var(--dpad-dark));
             border-radius: 50%;
+            box-shadow: 
+                inset 0 2px 4px rgba(0,0,0,0.5),
+                0 1px 0 rgba(255,255,255,0.03);
         }
-        
-        /* A/B */
-        .ab-btns { display: flex; gap: 5px; transform: rotate(-12deg); margin-right: 2px; }
-        
+
+        .ab-buttons {
+            display: flex;
+            gap: 14px;
+            transform: rotate(-12deg);
+            margin-right: 14px;
+        }
+
         .ab-btn {
-            width: 28px; height: 28px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
             font-family: inherit;
-            font-size: 7px;
-            color: rgba(255,255,255,0.8);
-            box-shadow: 0 3px 0 #500828, 0 4px 5px rgba(0,0,0,0.3);
+            font-weight: 700;
+            font-size: 15px;
+            color: rgba(255,255,255,0.9);
+            box-shadow: 
+                0 6px 0 var(--button-a-dark),
+                0 8px 15px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: all 0.1s;
+            position: relative;
+        }
+
+        .ab-btn:active {
+            transform: translateY(4px);
+            box-shadow: 
+                0 2px 0 var(--button-a-dark),
+                0 3px 5px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .btn-a { 
+            background: linear-gradient(145deg, #f05070, var(--button-a));
+            margin-top: 10px;
         }
         
-        .ab-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #500828; }
-        
-        .btn-a { background: #a01050; margin-top: 5px; }
-        .btn-b { background: #a01050; }
-        
-        /* START/SELECT */
-        .meta-btns {
+        .btn-b { 
+            background: linear-gradient(145deg, #f05070, var(--button-b));
+        }
+
+        .ab-btn::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1px;
+        }
+
+        .meta-buttons {
             display: flex;
             justify-content: center;
-            gap: 18px;
-            margin-top: 16px;
-            transform: rotate(-18deg);
+            gap: 24px;
+            margin-top: 24px;
         }
-        
+
+        .meta-btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .meta-btn {
-            width: 24px; height: 6px;
-            background: #383838;
-            border-radius: 5px;
+            width: 44px;
+            height: 10px;
+            background: linear-gradient(180deg, #1a1525, #15101d);
+            border-radius: 10px;
             border: none;
             cursor: pointer;
-            box-shadow: 0 2px 0 #181818;
+            box-shadow: 
+                0 2px 0 var(--dpad-dark),
+                0 3px 6px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.03);
         }
-        
-        .meta-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 #181818; }
-        
-        .meta-label {
-            font-size: 4px;
-            color: var(--gray-dark);
+
+        .meta-btn:active {
+            transform: translateY(1px);
+            box-shadow: 
+                0 1px 0 var(--dpad-dark),
+                0 2px 3px rgba(0,0,0,0.3);
+        }
+
+        .meta-btn-label {
             text-align: center;
-            margin-top: 3px;
-            letter-spacing: 0.5px;
+            font-size: 8px;
+            color: #555;
+            margin-top: 6px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
-        
-        /* BRANDING */
-        .branding {
-            text-align: center;
-            margin-top: 8px;
+
+        .speaker {
+            position: absolute;
+            right: 24px;
+            bottom: 90px;
+            display: grid;
+            grid-template-columns: repeat(6, 5px);
+            gap: 5px;
+            transform: rotate(-30deg);
         }
-        
-        .brand { font-size: 5px; color: var(--gray-dark); }
-        
-        /* VIEW TOGGLE */
-        .view-toggle {
-            margin-top: 45px;
-            background: var(--gray-dark);
-            border: none;
-            color: #fff;
-            padding: 7px 12px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 5px;
-            cursor: pointer;
+
+        .speaker-dot {
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle at 30% 30%, #15101d, #08060d);
+            border-radius: 50%;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
         }
-        
-        /* LIST VIEW */
-        .list-view { display: none; width: 100%; max-width: 340px; }
-        .list-view.active { display: block; }
-        .list-section { margin-bottom: 10px; }
-        .list-title { color: #888; font-size: 5px; margin-bottom: 5px; text-transform: uppercase; }
-        .list-link {
+
+        .power-led {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .led {
+            width: 6px;
+            height: 6px;
+            background: #2d5a2d;
+            border-radius: 50%;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .led.on {
+            background: #4a8a4a;
+            box-shadow: 
+                0 0 8px #4a8a4a,
+                0 0 15px rgba(74, 138, 74, 0.5);
+            animation: led-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes led-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .led-label {
+            font-size: 7px;
+            color: #444;
+            letter-spacing: 1px;
+        }
+
+        /* List view */
+        .list-view {
+            display: none;
+            width: 100%;
+            max-width: 480px;
+            padding: 40px 20px;
+        }
+
+        .list-view.active {
+            display: block;
+        }
+
+        .device-view.hidden {
+            display: none;
+        }
+
+        .list-view .section {
+            margin-bottom: 20px;
+        }
+
+        .list-view .section-title {
+            color: #666;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .list-view .link {
             display: block;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 4px;
-            padding: 7px 9px;
+            border-radius: 8px;
+            padding: 12px 16px;
             color: #fff;
             text-decoration: none;
-            font-size: 7px;
-            margin-bottom: 3px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
         }
-        .list-link:hover { background: rgba(233,69,96,0.2); border-color: #e94560; }
-        
-        /* BOOT */
-        .boot {
-            position: fixed;
-            inset: 0;
-            background: var(--screen-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            animation: bootFade 2.5s ease-out forwards;
+
+        .list-view .link:hover {
+            background: rgba(233,69,96,0.2);
+            border-color: #e94560;
         }
-        
-        @keyframes bootFade { 0%, 70% { opacity: 1; } 100% { opacity: 0; pointer-events: none; } }
-        
-        .boot-text { color: var(--screen-green); font-size: 5px; text-align: center; line-height: 2; }
-        
-        /* Mobile - scale down */
-        @media (max-width: 380px) {
-            .gameboy {
-                width: 85vw;
-                max-width: 260px;
-                transform-origin: top center;
+
+        .device-view {
+            display: block;
+        }
+
+        @media (max-width: 400px) {
+            .device {
+                width: 100%;
+                max-width: 300px;
+                padding: 16px;
             }
-            .screen-bezel { padding: 8px; }
-            .screen { width: 100px; height: 88px; }
-            .screen-content { padding: 4px; font-size: 3px; }
-            .avatar { width: 10px; height: 10px; }
-            .menu-title { font-size: 4px; }
-            .menu-item { font-size: 3px; }
-            .menu-footer { font-size: 2px; }
-            .dpad { width: 50px; height: 50px; }
-            .dpad-btn { box-shadow: 0 2px 0 #111, 0 3px 4px rgba(0,0,0,0.3); }
-            .dpad-btn:active { transform: translateY(1px); }
-            .dpad-up { width: 16px; height: 18px; }
-            .dpad-down { width: 16px; height: 18px; }
-            .dpad-left { width: 18px; height: 16px; }
-            .dpad-right { width: 18px; height: 16px; }
-            .dpad-center { width: 16px; height: 16px; }
-            .ab-btn { width: 22px; height: 22px; font-size: 6px; }
-            .btn-a { margin-top: 4px; }
-            .meta-btn { width: 20px; height: 5px; }
-            .view-toggle { margin-top: 30px; padding: 6px 10px; font-size: 4px; }
-            .list-view { padding: 0 10px; }
-            .list-link { padding: 6px 8px; font-size: 6px; }
+            .dpad { width: 80px; height: 80px; }
+            .ab-btn { width: 38px; height: 38px; font-size: 13px; }
         }
-        
-        button { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
-    <div class="boot" id="boot"><div class="boot-text">FLUME<br>EST. 2026<br><br>TYLER DELANO</div></div>
-    
-    <div class="container">
-        <div class="gameboy" id="gameboy">
-            <!-- Screen Bezel -->
-            <div class="screen-bezel">
-                <!-- LED inside bezel -->
-                <div class="led-section">
-                    <div class="led on"></div>
-                    <div class="led-label">BATTERY</div>
-                </div>
-                
-                <!-- Screen -->
-                <div class="screen-area">
-                    <div class="screen-label-top">DOT MATRIX WITH STEREO SOUND</div>
-                    <div class="screen-frame">
-                        <div class="screen" onclick="handleSelect()">
-                            <div class="screen-content">
-                                <img src="avatar.jpg" alt="T" class="avatar">
-                                <div class="menu-title" id="menuTitle">MENU</div>
-                                <div class="menu-items" id="menuItems"></div>
-                                <div class="menu-footer" id="menuFooter">A: SEL B: BCK</div>
+    <!-- Device View -->
+    <div class="device device-view" id="deviceView">
+        <div class="power-led">
+            <div class="led on"></div>
+            <span class="led-label">POWER</span>
+        </div>
+
+        <div class="screen-bezel">
+            <div class="screen-frame">
+                <div class="screen">
+                    <div class="screen-content">
+                        <div class="status-bar">
+                            <span>TYLER</span>
+                            <div class="battery">
+                                <div class="battery-icon">
+                                    <div class="battery-level"></div>
+                                </div>
                             </div>
                         </div>
+                        <div class="menu-title" id="menuTitle">MENU</div>
+                        <div class="menu-list" id="menuList"></div>
+                        <div class="menu-footer" id="menuFooter">A: SELECT | B: BACK</div>
                     </div>
-                    <div class="screen-label-bottom"><span>FLUME</span> <span>CLAW BOY</span></div>
                 </div>
             </div>
-            
-            <!-- Controls -->
-            <div class="controls">
-                <div class="dpad">
-                    <button class="dpad-btn dpad-up" data-dir="up"></button>
-                    <button class="dpad-btn dpad-down" data-dir="down"></button>
-                    <button class="dpad-btn dpad-left" data-dir="left"></button>
-                    <button class="dpad-btn dpad-right" data-dir="right"></button>
-                    <div class="dpad-center"></div>
-                </div>
-                <div class="ab-btns">
-                    <button class="ab-btn btn-b" data-action="b">B</button>
-                    <button class="ab-btn btn-a" data-action="a">A</button>
-                </div>
-            </div>
-            
-            <!-- Start/Select -->
-            <div class="meta-btns">
-                <div>
-                    <button class="meta-btn" data-action="select"></button>
-                    <div class="meta-label">SELECT</div>
-                </div>
-                <div>
-                    <button class="meta-btn" data-action="start" id="startBtn"></button>
-                    <div class="meta-label">START</div>
-                </div>
-            </div>
-            
-            <!-- Branding -->
-            <div class="branding"><div class="brand">CLAW BOY</div></div>
         </div>
-        
-        <button class="view-toggle" onclick="toggleView()">LIST VIEW</button>
-        
-        <div class="list-view" id="listView">
-            <div class="list-section">
-                <div class="list-title">Projects</div>
-                <a href="https://flume.sh" class="list-link" target="_blank">Flume.sh</a>
-                <a href="https://tylerdotai.github.io/personal-site" class="list-link" target="_blank">Terminal</a>
-                <a href="https://github.com/tylerdotai/proof" class="list-link" target="_blank">Proof</a>
+
+        <div class="controls">
+            <div class="dpad">
+                <button class="dpad-btn dpad-up" data-dir="up" aria-label="Up"></button>
+                <button class="dpad-btn dpad-down" data-dir="down" aria-label="Down"></button>
+                <button class="dpad-btn dpad-left" data-dir="left" aria-label="Left"></button>
+                <button class="dpad-btn dpad-right" data-dir="right" aria-label="Right"></button>
+                <div class="dpad-center"></div>
             </div>
-            <div class="list-section">
-                <div class="list-title">Community</div>
-                <a href="https://www.clawplex.dev" class="list-link" target="_blank">Clawplex</a>
-                <a href="https://discord.gg/q8kEquTu3z" class="list-link" target="_blank">Discord</a>
+
+            <div class="ab-buttons">
+                <button class="ab-btn btn-b" data-action="b" data-label="B">B</button>
+                <button class="ab-btn btn-a" data-action="a" data-label="A">A</button>
             </div>
-            <div class="list-section">
-                <div class="list-title">Contact</div>
-                <a href="mailto:tyler.delano@icloud.com" class="list-link">Email</a>
+        </div>
+
+        <div class="meta-buttons">
+            <div class="meta-btn-container">
+                <button class="meta-btn" data-action="select"></button>
+                <div class="meta-btn-label">SELECT</div>
             </div>
-            <div class="list-section">
-                <div class="list-title">Social</div>
-                <a href="https://linkedin.com/in/tylerpdelano" class="list-link" target="_blank">LinkedIn</a>
-                <a href="https://twitter.com/tylerdotai" class="list-link" target="_blank">Twitter</a>
-                <a href="https://github.com/tylerdotai" class="list-link" target="_blank">GitHub</a>
+            <div class="meta-btn-container">
+                <button class="meta-btn" data-action="start" id="startBtn"></button>
+                <div class="meta-btn-label">START</div>
             </div>
-            <button class="view-toggle" onclick="toggleView()">CLAW BOY</button>
+        </div>
+
+        <div class="speaker">
+            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
+            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
+            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
+            <div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div>
+        </div>
+
+        <button class="view-toggle" id="viewToggle">SWITCH TO LIST</button>
+    </div>
+
+    <!-- List View -->
+    <div class="list-view" id="listView">
+        <div class="section">
+            <div class="section-title">Projects</div>
+            <a href="https://flume.sh" class="link" target="_blank">Flume.sh</a>
+            <a href="https://tylerdotai.github.io/personal-site" class="link" target="_blank">Terminal Portfolio</a>
+            <a href="https://github.com/tylerdotai/proof" class="link" target="_blank">Proof</a>
+        </div>
+        <div class="section">
+            <div class="section-title">Community</div>
+            <a href="https://www.clawplex.dev" class="link" target="_blank">Clawplex</a>
+            <a href="https://discord.gg/q8kEquTu3z" class="link" target="_blank">Discord</a>
+        </div>
+        <div class="section">
+            <div class="section-title">Contact</div>
+            <a href="mailto:tyler.delano@icloud.com" class="link" target="_blank">Email</a>
+        </div>
+        <div class="section">
+            <div class="section-title">Social</div>
+            <a href="https://linkedin.com/in/tylerpdelano" class="link" target="_blank">LinkedIn</a>
+            <a href="https://twitter.com/tylerdotai" class="link" target="_blank">Twitter / X</a>
+            <a href="https://github.com/tylerdotai" class="link" target="_blank">GitHub</a>
         </div>
     </div>
-    
+
     <script>
-        const menus = {
-            main: { title: 'MENU', items: [
-                { label: 'Projects', sub: 'projects' },
-                { label: 'Community', sub: 'community' },
-                { label: 'Contact', sub: 'contact' },
-                { label: 'Social', sub: 'social' }
-            ]},
-            projects: { title: 'PROJECTS', items: [
-                { label: 'Flume.sh', url: 'https://flume.sh' },
-                { label: 'Terminal', url: 'https://tylerdotai.github.io/personal-site' },
-                { label: 'Proof', url: 'https://github.com/tylerdotai/proof' }
-            ]},
-            community: { title: 'COMMUNITY', items: [
-                { label: 'Clawplex', url: 'https://www.clawplex.dev' },
-                { label: 'Discord', url: 'https://discord.gg/q8kEquTu3z' }
-            ]},
-            contact: { title: 'CONTACT', items: [
-                { label: 'Email', url: 'mailto:tyler.delano@icloud.com' }
-            ]},
-            social: { title: 'SOCIAL', items: [
-                { label: 'LinkedIn', url: 'https://linkedin.com/in/tylerpdelano' },
-                { label: 'Twitter', url: 'https://twitter.com/tylerdotai' },
-                { label: 'GitHub', url: 'https://github.com/tylerdotai' }
-            ]}
+        // === PHASE 4: MENU DATA & RENDERING ===
+        const menuData = {
+            main: {
+                title: 'MENU',
+                items: [
+                    { label: 'Projects', submenu: 'projects', hasSubmenu: true },
+                    { label: 'Community', submenu: 'community', hasSubmenu: true },
+                    { label: 'Contact', submenu: 'contact', hasSubmenu: true },
+                    { label: 'Social', submenu: 'social', hasSubmenu: true }
+                ]
+            },
+            projects: {
+                title: 'PROJECTS',
+                items: [
+                    { label: 'Flume.sh', url: 'https://flume.sh' },
+                    { label: 'Terminal Portfolio', url: 'https://tylerdotai.github.io/personal-site' },
+                    { label: 'Proof', url: 'https://github.com/tylerdotai/proof' }
+                ]
+            },
+            community: {
+                title: 'COMMUNITY',
+                items: [
+                    { label: 'Clawplex', url: 'https://www.clawplex.dev' },
+                    { label: 'Discord', url: 'https://discord.gg/q8kEquTu3z' }
+                ]
+            },
+            contact: {
+                title: 'CONTACT',
+                items: [
+                    { label: 'Email', url: 'mailto:tyler.delano@icloud.com' }
+                ]
+            },
+            social: {
+                title: 'SOCIAL',
+                items: [
+                    { label: 'LinkedIn', url: 'https://linkedin.com/in/tylerpdelano' },
+                    { label: 'Twitter/X', url: 'https://twitter.com/tylerdotai' },
+                    { label: 'GitHub', url: 'https://github.com/tylerdotai' }
+                ]
+            }
         };
-        
-        let current = 'main', selected = 0, history = [];
-        
-        function render() {
-            const m = menus[current];
-            document.getElementById('menuTitle').textContent = m.title;
-            document.getElementById('menuFooter').textContent = current === 'main' ? 'A: SEL B: BCK' : 'A: OPN B: BCK';
-            document.getElementById('menuItems').innerHTML = m.items.map((item, i) => 
-                `<div class="menu-item ${i === selected ? 'selected' : ''}" onclick="selected=${i};handleSelect()">${item.label}</div>`
-            ).join('');
-        }
-        
-        function nav(dir) {
-            const items = menus[current].items;
-            if (dir === 'up') selected = (selected - 1 + items.length) % items.length;
-            else if (dir === 'down') selected = (selected + 1) % items.length;
-            playBlip();
-            render();
-        }
-        
-        function handleSelect() {
-            const item = menus[current].items[selected];
-            playSelect();
-            if (item.sub) { history.push(current); current = item.sub; selected = 0; }
-            else if (item.url) { playOpen(); window.open(item.url, '_blank'); }
-            render();
-        }
-        
-        function handleBack() {
-            if (history.length) { playBack(); current = history.pop(); selected = 0; render(); }
-        }
-        
-        let audioCtx;
-        function tone(f, d, v=0.08) {
-            try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.frequency.value = f;
-                gain.gain.setValueAtTime(v, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d);
-                osc.start(); osc.stop(audioCtx.currentTime + d);
-            } catch(e) {}
-        }
-        function playBlip() { tone(440, 0.05); }
-        function playSelect() { tone(660, 0.05); setTimeout(() => tone(880, 0.05), 50); }
-        function playBack() { tone(330, 0.05); }
-        function playOpen() { tone(523, 0.08); setTimeout(() => tone(659, 0.08), 80); setTimeout(() => tone(784, 0.12), 160); }
-        
-        function toggleView() {
-            const gb = document.getElementById('gameboy');
-            const lv = document.getElementById('listView');
-            const bt = document.querySelectorAll('.view-toggle');
-            if (gb.style.display === 'none') {
-                gb.style.display = 'block';
-                lv.classList.remove('active');
-                bt[0].textContent = 'LIST VIEW';
+
+        // State
+        let currentMenu = 'main';
+        let selectedIndex = 0;
+        let menuHistory = [];
+
+        // DOM elements
+        const menuTitle = document.getElementById('menuTitle');
+        const menuList = document.getElementById('menuList');
+        const menuFooter = document.getElementById('menuFooter');
+
+        function renderMenu(animate = true) {
+            const menu = menuData[currentMenu];
+            menuTitle.textContent = menu.title;
+            
+            // Update footer based on menu
+            if (currentMenu === 'main') {
+                menuFooter.textContent = 'A: SELECT | B: BACK';
             } else {
-                gb.style.display = 'none';
-                lv.classList.add('active');
-                bt[0].textContent = 'CLAW BOY';
+                menuFooter.textContent = 'A: OPEN | B: BACK';
+            }
+
+            // Add animation class
+            if (animate) {
+                menuList.classList.add('menu-animate-in');
+                setTimeout(() => menuList.classList.remove('menu-animate-in'), 300);
+            }
+
+            menuList.innerHTML = menu.items.map((item, i) => `
+                <div class="menu-item ${i === selectedIndex ? 'selected' : ''} ${item.hasSubmenu ? 'has-submenu' : ''}" data-index="${i}">
+                    <span class="arrow">></span>
+                    <span class="label">${item.label}</span>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            document.querySelectorAll('.menu-item').forEach(el => {
+                el.addEventListener('click', () => {
+                    selectedIndex = parseInt(el.dataset.index);
+                    handleSelect();
+                });
+            });
+        }
+
+        function handleSelect() {
+            const menu = menuData[currentMenu];
+            const item = menu.items[selectedIndex];
+
+            // Visual feedback
+            document.querySelector('.screen-frame').classList.add('screen-blink');
+            setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
+
+            if (item.submenu) {
+                // Navigate to submenu
+                menuHistory.push(currentMenu);
+                currentMenu = item.submenu;
+                selectedIndex = 0;
+                renderMenu();
+            } else if (item.url) {
+                // Open link
+                window.open(item.url, '_blank');
+            }
+        }
+
+        function handleBack() {
+            if (menuHistory.length > 0) {
+                // Visual feedback
+                document.querySelector('.screen-frame').classList.add('screen-blink');
+                setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
+                
+                currentMenu = menuHistory.pop();
+                selectedIndex = 0;
+                renderMenu();
+            }
+        }
+
+        function handleNavigate(direction) {
+            const menu = menuData[currentMenu];
+            if (direction === 'up') {
+                selectedIndex = (selectedIndex - 1 + menu.items.length) % menu.items.length;
+            } else if (direction === 'down') {
+                selectedIndex = (selectedIndex + 1) % menu.items.length;
+            }
+            renderMenu();
+        }
+
+        // D-pad handlers (click + touch)
+        document.querySelectorAll('.dpad-btn').forEach(btn => {
+            const handleDpad = (e) => {
+                e.preventDefault();
+                const dir = btn.dataset.dir;
+                if (dir === 'up' || dir === 'down') {
+                    handleNavigate(dir);
+                } else if (dir === 'left' || dir === 'right') {
+                    // Left/Right could navigate between menus
+                    if (dir === 'left') handleBack();
+                }
+            };
+            
+            btn.addEventListener('click', handleDpad);
+            btn.addEventListener('touchstart', handleDpad, { passive: false });
+            
+            btn.addEventListener('mousedown', () => btn.classList.add('pressed'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('pressed'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('pressed'));
+            btn.addEventListener('touchstart', () => btn.classList.add('pressed'));
+            btn.addEventListener('touchend', () => btn.classList.remove('pressed'));
+        });
+
+        // A/B button handlers (click + touch)
+        document.querySelectorAll('.ab-btn').forEach(btn => {
+            const handleAb = (e) => {
+                e.preventDefault();
+                const action = btn.dataset.action;
+                if (action === 'a') handleSelect();
+                if (action === 'b') handleBack();
+            };
+            
+            btn.addEventListener('click', handleAb);
+            btn.addEventListener('touchstart', handleAb, { passive: false });
+        });
+
+        // Start button - toggle view
+        document.querySelector('[data-action="start"]').addEventListener('click', () => {
+            toggleView();
+        });
+        document.querySelector('[data-action="start"]').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            toggleView();
+        }, { passive: false });
+
+        // Select button - alternate action
+        document.querySelector('[data-action="select"]').addEventListener('click', () => {
+            handleSelect(); // Same as A
+        });
+        document.querySelector('[data-action="select"]').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleSelect();
+        }, { passive: false });
+
+        // View toggle function
+        function toggleView() {
+            const deviceView = document.getElementById('deviceView');
+            const listView = document.getElementById('listView');
+            
+            if (deviceView.style.display === 'none') {
+                deviceView.style.display = 'block';
+                listView.style.display = 'none';
+            } else {
+                deviceView.style.display = 'none';
+                listView.style.display = 'block';
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') handleNavigate('up');
+            else if (e.key === 'ArrowDown') handleNavigate('down');
+            else if (e.key === 'Enter') handleSelect();
+            else if (e.key === 'Escape') handleBack();
+            else if (e.key === 'Backspace') handleBack();
+            else if (e.key === ' ') handleSelect(); // Space = A button
+            else if (e.key === 'Tab') { e.preventDefault(); toggleView(); } // Tab = Start
+        });
+
+        // Initial render
+        renderMenu();
+
+        // === PHASE 8: SOUND EFFECTS (Web Audio API) ===
+        let audioContext = null;
+        let soundEnabled = true;
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
+
+        function playTone(frequency, duration, type = 'square', volume = 0.1) {
+            if (!soundEnabled) return;
+            
+            try {
+                const ctx = initAudio();
+                const oscillator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                
+                oscillator.type = type;
+                oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+                
+                gainNode.gain.setValueAtTime(volume, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                
+                oscillator.start(ctx.currentTime);
+                oscillator.stop(ctx.currentTime + duration);
+            } catch (e) {
+                console.log('Audio not available');
+            }
+        }
+
+        function playBlip() {
+            playTone(800, 0.08, 'square', 0.08);
+        }
+
+        function playSelect() {
+            playTone(600, 0.05, 'square', 0.06);
+            setTimeout(() => playTone(800, 0.08, 'square', 0.08), 50);
+        }
+
+        function playBack() {
+            playTone(400, 0.08, 'square', 0.06);
+        }
+
+        function playOpen() {
+            playTone(523, 0.1, 'sine', 0.1);
+            setTimeout(() => playTone(659, 0.1, 'sine', 0.1), 80);
+            setTimeout(() => playTone(784, 0.15, 'sine', 0.1), 160);
+        }
+
+        // Hook sounds into navigation
+        const originalHandleNavigate = handleNavigate;
+        handleNavigate = function(direction) {
+            playBlip();
+            originalHandleNavigate(direction);
+        };
+
+        const originalHandleSelect = handleSelect;
+        handleSelect = function() {
+            playSelect();
+            setTimeout(() => {
+                const menu = menuData[currentMenu];
+                const item = menu.items[selectedIndex];
+                if (item.url) playOpen();
+            }, 100);
+            originalHandleSelect();
+        };
+
+        const originalHandleBack = handleBack;
+        handleBack = function() {
+            playBack();
+            originalHandleBack();
+        };
+
+        // Toggle sound
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggle');
+            if (btn) {
+                btn.textContent = soundEnabled ? 'SOUND ON' : 'SOUND OFF';
+            }
+        }
+
+        // Add sound toggle button
+        function addSoundToggle() {
+            const container = document.querySelector('.meta-btn-container');
+            if (container) {
+                const soundBtn = document.createElement('button');
+                soundBtn.id = 'soundToggle';
+                soundBtn.className = 'meta-btn';
+                soundBtn.setAttribute('data-action', 'sound');
+                soundBtn.style.cssText = 'margin-top:10px;width:44px;height:10px;';
+                soundBtn.onclick = toggleSound;
+                
+                const label = document.createElement('div');
+                label.className = 'meta-btn-label';
+                label.textContent = 'SOUND';
+                label.style.marginTop = '6px';
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'meta-btn-container';
+                wrapper.appendChild(soundBtn);
+                wrapper.appendChild(label);
+                
+                document.querySelector('.meta-buttons').appendChild(wrapper);
             }
         }
         
-        document.querySelectorAll('.dpad-btn').forEach(btn => {
-            btn.onclick = (e) => { e.preventDefault(); const d = btn.dataset.dir; if(d==='up'||d==='down') nav(d); else handleBack(); };
-            btn.onmousedown = () => btn.classList.add('pressed');
-            btn.onmouseup = () => btn.classList.remove('pressed');
+        // Initialize sound toggle after DOM loads
+        setTimeout(addSoundToggle, 100);
+
+        // === VIEW TOGGLE (for later phases) ===
+        document.getElementById('startBtn').addEventListener('click', () => {
+            alert('View toggle coming in Phase 10!');
         });
+
+        // === TDD TESTS ===
+        const tests = [];
         
-        document.querySelectorAll('.ab-btn').forEach(btn => {
-            btn.onclick = (e) => { e.preventDefault(); if(btn.dataset.action==='a') handleSelect(); else handleBack(); };
+        function test(name, fn) {
+            try {
+                fn();
+                tests.push({ name, status: 'PASS' });
+            } catch (e) {
+                tests.push({ name, status: 'FAIL', error: e.message });
+            }
+        }
+
+        function assert(condition, message) {
+            if (!condition) throw new Error(message);
+        }
+
+        // Test menu data structure
+        test('Menu data has main, projects, community, contact, social', () => {
+            assert(menuData.main !== undefined, 'No main menu');
+            assert(menuData.projects !== undefined, 'No projects menu');
+            assert(menuData.community !== undefined, 'No community menu');
+            assert(menuData.contact !== undefined, 'No contact menu');
+            assert(menuData.social !== undefined, 'No social menu');
         });
-        
-        document.querySelector('[data-action="start"]').onclick = toggleView;
-        document.querySelector('[data-action="select"]').onclick = handleSelect;
-        
-        document.onkeydown = (e) => {
-            if (e.key === 'ArrowUp') nav('up');
-            else if (e.key === 'ArrowDown') nav('down');
-            else if (e.key === 'Enter' || e.key === ' ') handleSelect();
-            else if (e.key === 'Backspace' || e.key === 'Escape') handleBack();
-            else if (e.key === 'Tab') { e.preventDefault(); toggleView(); }
-        };
-        
-        setTimeout(() => { document.getElementById('boot').style.display = 'none'; }, 2500);
-        render();
+
+        test('Main menu has 4 items', () => {
+            assert(menuData.main.items.length === 4, 'Wrong item count');
+        });
+
+        test('Projects menu has 3 items with URLs', () => {
+            assert(menuData.projects.items.length === 3, 'Wrong projects count');
+            assert(menuData.projects.items[0].url !== undefined, 'No URL');
+        });
+
+        test('Render function creates menu items', () => {
+            renderMenu();
+            const items = document.querySelectorAll('.menu-item');
+            assert(items.length === 4, 'Menu not rendered');
+        });
+
+        test('Navigation wraps correctly', () => {
+            selectedIndex = 3;
+            handleNavigate('down');
+            assert(selectedIndex === 0, 'Should wrap to 0');
+            handleNavigate('up');
+            assert(selectedIndex === 3, 'Should wrap to 3');
+        });
+
+        test('Submenu navigation works', () => {
+            selectedIndex = 0; // Projects
+            handleSelect();
+            assert(currentMenu === 'projects', 'Should navigate to projects');
+            assert(menuHistory.includes('main'), 'Should push to history');
+        });
+
+        test('Back navigation works', () => {
+            handleBack();
+            assert(currentMenu === 'main', 'Should go back to main');
+        });
+
+        test('URL items are clickable', () => {
+            currentMenu = 'projects';
+            selectedIndex = 0;
+            const item = menuData.projects.items[0];
+            assert(item.url !== undefined, 'No URL to test');
+            assert(item.url.startsWith('http'), 'Invalid URL');
+        });
+
+        test('Menu title updates on navigation', () => {
+            currentMenu = 'main';
+            renderMenu();
+            assert(menuTitle.textContent === 'MENU', 'Wrong title');
+            selectedIndex = 0;
+            handleSelect();
+            assert(menuTitle.textContent === 'PROJECTS', 'Wrong title after nav');
+        });
+
+        test('Footer text changes per menu', () => {
+            currentMenu = 'main';
+            renderMenu();
+            assert(menuFooter.textContent.includes('SELECT'), 'Wrong footer');
+            currentMenu = 'projects';
+            renderMenu();
+            assert(menuFooter.textContent.includes('OPEN'), 'Wrong footer');
+        });
+
+        console.log('=== PHASE 4 TDD TESTS ===');
+        tests.forEach(t => console.log(`${t.status}: ${t.name}`));
+        console.log(`\nTOTAL: ${tests.filter(t => t.status === 'PASS').length} passed, ${tests.filter(t => t.status === 'FAIL').length} failed`);
     </script>
 </body>
 </html>
