@@ -31,10 +31,10 @@
         
         /* GAME BOY */
         .gameboy {
-            width: 300px;
+            width: 260px;
             background: linear-gradient(180deg, var(--gray-light) 0%, var(--gray) 30%, var(--gray-dark) 100%);
-            border-radius: 8px 8px 45px 45px;
-            padding: 16px 14px 28px;
+            border-radius: 6px 6px 40px 40px;
+            padding: 14px 12px 24px;
             box-shadow: 
                 0 0 0 2px #484848,
                 0 25px 50px rgba(0,0,0,0.5),
@@ -305,7 +305,36 @@
         
         .boot-text { color: var(--screen-green); font-size: 5px; text-align: center; line-height: 2; }
         
-        @media (max-width: 330px) { .gameboy { width: 95%; } }
+        /* Mobile - scale down */
+        @media (max-width: 380px) {
+            .gameboy {
+                width: 85vw;
+                max-width: 260px;
+                transform-origin: top center;
+            }
+            .screen-bezel { padding: 8px; }
+            .screen { width: 100px; height: 88px; }
+            .screen-content { padding: 4px; font-size: 3px; }
+            .avatar { width: 10px; height: 10px; }
+            .menu-title { font-size: 4px; }
+            .menu-item { font-size: 3px; }
+            .menu-footer { font-size: 2px; }
+            .dpad { width: 50px; height: 50px; }
+            .dpad-btn { box-shadow: 0 2px 0 #111, 0 3px 4px rgba(0,0,0,0.3); }
+            .dpad-btn:active { transform: translateY(1px); }
+            .dpad-up { width: 16px; height: 18px; }
+            .dpad-down { width: 16px; height: 18px; }
+            .dpad-left { width: 18px; height: 16px; }
+            .dpad-right { width: 18px; height: 16px; }
+            .dpad-center { width: 16px; height: 16px; }
+            .ab-btn { width: 22px; height: 22px; font-size: 6px; }
+            .btn-a { margin-top: 4px; }
+            .meta-btn { width: 20px; height: 5px; }
+            .view-toggle { margin-top: 30px; padding: 6px 10px; font-size: 4px; }
+            .list-view { padding: 0 10px; }
+            .list-link { padding: 6px 8px; font-size: 6px; }
+        }
+        
         button { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
@@ -335,7 +364,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="screen-label-bottom">Nintendo <span>CLAW BOY</span></div>
+                    <div class="screen-label-bottom"><span>FLUME</span> <span>CLAW BOY</span></div>
                 </div>
             </div>
             
