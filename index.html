@@ -138,74 +138,6 @@
             50% { opacity: 0.52; }
         }
 
-        /* PHASE 10: Accessibility - Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* PHASE 10: Mobile optimization */
-        @media (max-width: 380px) {
-            .device {
-                width: 95%;
-                max-width: 300px;
-                padding: 14px;
-            }
-            
-            .screen {
-                height: 170px;
-            }
-            
-            .screen-content {
-                padding: 8px;
-                font-size: 10px;
-            }
-            
-            .menu-title {
-                font-size: 10px;
-                letter-spacing: 1px;
-            }
-            
-            .dpad {
-                width: 75px;
-                height: 75px;
-            }
-            
-            .dpad-up, .dpad-down { width: 24px; height: 28px; }
-            .dpad-left, .dpad-right { width: 28px; height: 24px; }
-            .dpad-center { width: 24px; height: 24px; }
-            
-            .ab-buttons { gap: 10px; }
-            .ab-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 13px;
-            }
-            
-            .meta-btn { width: 36px; }
-            .speaker { right: 16px; bottom: 70px; }
-            .speaker-dot { width: 4px; height: 4px; }
-            .power-led { left: 20px; }
-            
-            .view-toggle {
-                bottom: -35px;
-                padding: 6px 12px;
-                font-size: 9px;
-            }
-            
-            .list-view { padding: 20px 15px; }
-            .list-view .link { padding: 10px 12px; font-size: 13px; }
-        }
-
-        /* Touch improvements */
-        button {
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
         .screen-content {
             padding: 12px;
             color: var(--screen-green);
@@ -261,76 +193,6 @@
         .menu-list {
             flex: 1;
             overflow: hidden;
-            position: relative;
-        }
-
-        /* PHASE 6: Menu transitions */
-        .menu-list::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--screen-bg);
-            z-index: 10;
-            opacity: 0;
-            transition: opacity 0.1s;
-            pointer-events: none;
-        }
-
-        .menu-list.transitioning::before {
-            opacity: 1;
-        }
-
-        .menu-item {
-            transition: all 0.15s ease-out;
-        }
-
-        /* PHASE 7: Animations */
-        @keyframes menuSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes menuSlideOut {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-        }
-
-        @keyframes buttonPress {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1); }
-        }
-
-        .menu-animate-in .menu-item {
-            animation: menuSlideIn 0.2s ease-out forwards;
-            opacity: 0;
-        }
-
-        .menu-animate-in .menu-item:nth-child(1) { animation-delay: 0s; }
-        .menu-animate-in .menu-item:nth-child(2) { animation-delay: 0.05s; }
-        .menu-animate-in .menu-item:nth-child(3) { animation-delay: 0.1s; }
-        .menu-animate-in .menu-item:nth-child(4) { animation-delay: 0.15s; }
-        .menu-animate-in .menu-item:nth-child(5) { animation-delay: 0.2s; }
-
-        @keyframes screenBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .screen-blink {
-            animation: screenBlink 0.1s ease-in-out;
         }
 
         .menu-item {
@@ -831,7 +693,7 @@
         const menuList = document.getElementById('menuList');
         const menuFooter = document.getElementById('menuFooter');
 
-        function renderMenu(animate = true) {
+        function renderMenu() {
             const menu = menuData[currentMenu];
             menuTitle.textContent = menu.title;
             
@@ -840,12 +702,6 @@
                 menuFooter.textContent = 'A: SELECT | B: BACK';
             } else {
                 menuFooter.textContent = 'A: OPEN | B: BACK';
-            }
-
-            // Add animation class
-            if (animate) {
-                menuList.classList.add('menu-animate-in');
-                setTimeout(() => menuList.classList.remove('menu-animate-in'), 300);
             }
 
             menuList.innerHTML = menu.items.map((item, i) => `
@@ -868,10 +724,6 @@
             const menu = menuData[currentMenu];
             const item = menu.items[selectedIndex];
 
-            // Visual feedback
-            document.querySelector('.screen-frame').classList.add('screen-blink');
-            setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
-
             if (item.submenu) {
                 // Navigate to submenu
                 menuHistory.push(currentMenu);
@@ -886,10 +738,6 @@
 
         function handleBack() {
             if (menuHistory.length > 0) {
-                // Visual feedback
-                document.querySelector('.screen-frame').classList.add('screen-blink');
-                setTimeout(() => document.querySelector('.screen-frame').classList.remove('screen-blink'), 100);
-                
                 currentMenu = menuHistory.pop();
                 selectedIndex = 0;
                 renderMenu();
@@ -987,121 +835,6 @@
 
         // Initial render
         renderMenu();
-
-        // === PHASE 8: SOUND EFFECTS (Web Audio API) ===
-        let audioContext = null;
-        let soundEnabled = true;
-
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            return audioContext;
-        }
-
-        function playTone(frequency, duration, type = 'square', volume = 0.1) {
-            if (!soundEnabled) return;
-            
-            try {
-                const ctx = initAudio();
-                const oscillator = ctx.createOscillator();
-                const gainNode = ctx.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(ctx.destination);
-                
-                oscillator.type = type;
-                oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
-                
-                gainNode.gain.setValueAtTime(volume, ctx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-                
-                oscillator.start(ctx.currentTime);
-                oscillator.stop(ctx.currentTime + duration);
-            } catch (e) {
-                console.log('Audio not available');
-            }
-        }
-
-        function playBlip() {
-            playTone(800, 0.08, 'square', 0.08);
-        }
-
-        function playSelect() {
-            playTone(600, 0.05, 'square', 0.06);
-            setTimeout(() => playTone(800, 0.08, 'square', 0.08), 50);
-        }
-
-        function playBack() {
-            playTone(400, 0.08, 'square', 0.06);
-        }
-
-        function playOpen() {
-            playTone(523, 0.1, 'sine', 0.1);
-            setTimeout(() => playTone(659, 0.1, 'sine', 0.1), 80);
-            setTimeout(() => playTone(784, 0.15, 'sine', 0.1), 160);
-        }
-
-        // Hook sounds into navigation
-        const originalHandleNavigate = handleNavigate;
-        handleNavigate = function(direction) {
-            playBlip();
-            originalHandleNavigate(direction);
-        };
-
-        const originalHandleSelect = handleSelect;
-        handleSelect = function() {
-            playSelect();
-            setTimeout(() => {
-                const menu = menuData[currentMenu];
-                const item = menu.items[selectedIndex];
-                if (item.url) playOpen();
-            }, 100);
-            originalHandleSelect();
-        };
-
-        const originalHandleBack = handleBack;
-        handleBack = function() {
-            playBack();
-            originalHandleBack();
-        };
-
-        // Toggle sound
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const btn = document.getElementById('soundToggle');
-            if (btn) {
-                btn.textContent = soundEnabled ? 'SOUND ON' : 'SOUND OFF';
-            }
-        }
-
-        // Add sound toggle button
-        function addSoundToggle() {
-            const container = document.querySelector('.meta-btn-container');
-            if (container) {
-                const soundBtn = document.createElement('button');
-                soundBtn.id = 'soundToggle';
-                soundBtn.className = 'meta-btn';
-                soundBtn.setAttribute('data-action', 'sound');
-                soundBtn.style.cssText = 'margin-top:10px;width:44px;height:10px;';
-                soundBtn.onclick = toggleSound;
-                
-                const label = document.createElement('div');
-                label.className = 'meta-btn-label';
-                label.textContent = 'SOUND';
-                label.style.marginTop = '6px';
-                
-                const wrapper = document.createElement('div');
-                wrapper.className = 'meta-btn-container';
-                wrapper.appendChild(soundBtn);
-                wrapper.appendChild(label);
-                
-                document.querySelector('.meta-buttons').appendChild(wrapper);
-            }
-        }
-        
-        // Initialize sound toggle after DOM loads
-        setTimeout(addSoundToggle, 100);
 
         // === VIEW TOGGLE (for later phases) ===
         document.getElementById('startBtn').addEventListener('click', () => {
